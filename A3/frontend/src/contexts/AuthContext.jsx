@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginAPI, requestPasswordResetAPI, resetPasswordAPI } from '../api/auth';
 import { getCurrentUserAPI } from '../api/user';
@@ -19,6 +19,8 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const clearError = () => setError(null);
+
     // use navigate so we can change pages without reload
     const navigate = useNavigate()
 
@@ -32,6 +34,7 @@ export const AuthProvider = ({ children }) => {
             setToken(data.token);
             localStorage.setItem('token', data.token);
             await fetchUser();
+            navigate('/');
             return data;
         } catch (err) {
             setError(err.message);
@@ -72,7 +75,7 @@ export const AuthProvider = ({ children }) => {
         setError(null);
         try {
             const data = await requestPasswordResetAPI(utorid);
-            return data;
+            return data.resetToken;
         } catch (err) {
             setError(err.message);
             throw err;
@@ -110,7 +113,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{
-            user, token, loading, error, setUser,
+            user, token, loading, error, setUser, clearError, setError,
             login, logout, fetchUser, requestPasswordReset, resetPassword
             /* and other global vars */
         }}>

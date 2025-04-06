@@ -46,5 +46,5 @@ export const resetPasswordAPI = async (utorid, newPassword, resetToken) => {
         const errorMsg = `Reset password failed: ${errorData.error || 'Unknown error'}`;
         throw new Error(errorMsg);
     }
-    return await res.json();
+    return await res;
 };

@@ -15,7 +15,6 @@ function Home() {
         </div>
         <div className="row">
             <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
         </div>
     </>;
 }
