@@ -18,6 +18,7 @@ header > :first-child {
     margin-right: auto;
 }
 
+header > select,
 header > a {
     color: #eee;
     font-weight: bold;

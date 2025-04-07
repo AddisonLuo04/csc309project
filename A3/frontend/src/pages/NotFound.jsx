@@ -1,4 +1,3 @@
-// pages/NotFound.jsx
 const NotFound = ({ type = "notfound" }) => {
     return (
         <div style={{ padding: "2rem", textAlign: "center" }}>

@@ -10,6 +10,11 @@ export const UserProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // store information about available interfaces in this context
+    const [currentInterface, setCurrentInterface] = useState("regular");
+    const [availableInterfaces, setAvailableInterfaces] = useState([]);
+
+
     // function to update the current user's profile
     const updateProfile = async (profileData) => {
         if (!token) return;
@@ -43,13 +48,36 @@ export const UserProvider = ({ children }) => {
         }
     };
 
-    const getAvailableInterfaces = async () => {
-        
-    };
+    // on mount/user change, update the available and current interfaces
+    useEffect(() => {
+        if (user) {
+            const interfaces = [];
+    
+            if (user.role === 'superuser') {
+                interfaces.push('superuser', 'manager', 'cashier', 'regular');
+            } else if (user.role === 'manager') {
+                interfaces.push('manager', 'cashier', 'regular');
+            } else if (user.role === 'cashier') {
+                interfaces.push('cashier', 'regular');
+            } else {
+                interfaces.push('regular');
+                if (user.eventsAsOrganizer.length > 0) interfaces.push('event-organizer');
+            }
+    
+            setAvailableInterfaces(interfaces);
+            setCurrentInterface(interfaces[0]);
+        } else {
+            // if user is null, i.e. user not logged in
+            // no available interfaces
+            setAvailableInterfaces([]);
+            setCurrentInterface("");
+        }
+    }, [user]);
 
     return (
         <UserContext.Provider value={{
-            user, loading, error, setError, updateProfile, updatePassword, avatarSrc
+            user, loading, error, setError, updateProfile, updatePassword, avatarSrc,
+            currentInterface, setCurrentInterface, availableInterfaces
         }}>
             {children}
         </UserContext.Provider>

@@ -235,7 +235,7 @@ async function getCurrentUser(req, res) {
             promotions: promos,
             transactions: user.transactions,
             eventsAsGuest: user.eventsAsGuest,
-            eventAsOrganizer: user.eventsAsOrganizer
+            eventsAsOrganizer: user.eventsAsOrganizer
         }
 
         return res.status(200).json(filteredUser);
