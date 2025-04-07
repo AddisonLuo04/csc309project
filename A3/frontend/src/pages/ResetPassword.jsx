@@ -8,10 +8,10 @@ function ResetPassword() {
     const [utorid, setUtorid] = useState("");
     const [resetToken, setResetToken] = useState(null);
     const [showResetForm, setShowResetForm] = useState(false);
+    const [confirmUtorid, setConfirmUtorid] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmResetToken, setConfirmResetToken] = useState("");
-    const [resetError, setResetError] = useState(null);
     const navigate = useNavigate();
 
     // on mount, clear the error
@@ -22,11 +22,12 @@ function ResetPassword() {
     // step 1: request the reset token
     const handleRequestSubmit = async (e) => {
         e.preventDefault();
-        setResetError(null);
         try {
             const token = await requestPasswordReset(utorid);
             // backend will give back a reset token
             setResetToken(token);
+            // also set the confirm Utorid for the reset submit
+            setConfirmUtorid(utorid);
         } catch (err) {
             console.error(err);
         }
@@ -40,7 +41,11 @@ function ResetPassword() {
     // step 2: reset the password using the token
     const handleResetSubmit = async (e) => {
         e.preventDefault();
-        setResetError(null);
+        if (utorid !== confirmUtorid) {
+            setError("Utorid does not match originally requested utorid.");
+            return;
+        }
+
         if (newPassword !== confirmPassword) {
             setError("Passwords do not match.");
             return;
@@ -105,10 +110,19 @@ function ResetPassword() {
             {/* Step 2: Reset password form */}
             {showResetForm && (
                 <form onSubmit={handleResetSubmit}>
-                    {/* maybe have a details p in here to describe password format */}
                     <p className="details">Password must include at least 1:</p>
-
                     <p className="details"> Uppercase, Lowercase, Number, and Special Character</p>
+
+                    <label htmlFor="confirmUtorid">Utorid:</label>
+                    <input
+                        type="text"
+                        id="confirmUtorid"
+                        name="confirmUtorid"
+                        placeholder="Utorid"
+                        value={confirmUtorid}
+                        onChange={(e) => setConfirmUtorid(e.target.value)}
+                        required
+                    />
                     <label htmlFor="newPassword">New Password:</label>
                     <input
                         type="password"
