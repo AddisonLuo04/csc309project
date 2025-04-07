@@ -10,7 +10,7 @@ import {
     Box
 } from "@mui/material";
 
-function ProfileCard({ user, onEdit, avatarSrc }) {
+function ProfileCard({ user, onEdit, avatarSrc, onUpdate }) {
     return (
         <Card variant="outlined">
             <CardContent>
@@ -62,6 +62,9 @@ function ProfileCard({ user, onEdit, avatarSrc }) {
             <CardActions>
                 <Button variant="contained" onClick={onEdit}>
                     Edit Profile
+                </Button>
+                <Button variant="contained" onClick={onUpdate}>
+                    Change Password
                 </Button>
             </CardActions>
         </Card>

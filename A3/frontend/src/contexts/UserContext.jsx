@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { updateProfileAPI, avatarSrc } from '../api/user';
+import { updateProfileAPI, avatarSrc, updatePasswordAPI } from '../api/user';
 import { useAuth } from './AuthContext';
 
 export const UserContext = createContext(null);
@@ -33,9 +33,8 @@ export const UserProvider = ({ children }) => {
         setLoading(true);
         setError(null);
         try {
-            const updatedUser = await updatePassword(oldPassword, newPassword, token);
-            setUser(updatedUser);
-            return updatedUser;
+            await updatePasswordAPI(oldPassword, newPassword, token);
+            return;
         } catch (err) {
             setError(err.message);
             throw err;
