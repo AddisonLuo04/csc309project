@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { updateProfileAPI } from '../api/user';
+import { updateProfileAPI, avatarSrc } from '../api/user';
 import { useAuth } from './AuthContext';
 
 export const UserContext = createContext(null);
@@ -46,7 +46,7 @@ export const UserProvider = ({ children }) => {
 
     return (
         <UserContext.Provider value={{
-            user, loading, error, setError, updateProfile, updatePassword
+            user, loading, error, setError, updateProfile, updatePassword, avatarSrc
         }}>
             {children}
         </UserContext.Provider>

@@ -52,6 +52,9 @@ app.use('/events', eventRoutes);
 const transactionRoutes = require('./src/routes/transactionRoutes');
 app.use('/transactions', transactionRoutes);
 
+// make uploads publicly accessible for the frontend
+app.use('/uploads', express.static('uploads'));
+
 // MOVE SERVER LOGIC TO SERVER.JS
 // const server = app.listen(port, () => {
 //     console.log(`Server running on port ${port}`);

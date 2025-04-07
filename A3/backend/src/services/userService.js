@@ -280,12 +280,12 @@ async function updateUserStatus(payload, currentUser, userId) {
 }
 
 async function updateCurrentUser(payload, currentUser) {
-    let { name, email, birthday, avatar } = payload;
+    let { name, email, birthday, avatar: avatarUrl } = payload;
     // if null, conver to undefined for each field:
     name = name === null ? undefined : name;
     email = email === null ? undefined : email;
     birthday = birthday === null ? undefined : birthday;
-    avatar = avatar === null ? undefined : avatar;
+    avatarUrl = avatarUrl === null ? undefined : avatarUrl;
 
     const userId = currentUser.id;
 
@@ -324,7 +324,7 @@ async function updateCurrentUser(payload, currentUser) {
 
     // create updates object and filter out undefined fields
     const updates = Object.fromEntries(
-        Object.entries({ name, email, birthday, avatar }).filter(([_, v]) => v !== undefined)
+        Object.entries({ name, email, birthday, avatarUrl }).filter(([_, v]) => v !== undefined)
     );
 
     if (Object.keys(updates).length === 0) {

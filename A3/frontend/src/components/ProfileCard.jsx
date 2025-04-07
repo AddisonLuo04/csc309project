@@ -10,7 +10,7 @@ import {
     Box
 } from "@mui/material";
 
-function ProfileCard({ user, onEdit }) {
+function ProfileCard({ user, onEdit, avatarSrc }) {
     return (
         <Card variant="outlined">
             <CardContent>
@@ -19,7 +19,7 @@ function ProfileCard({ user, onEdit }) {
                     <Grid item>
                         <Avatar
                             alt={user?.name}
-                            src={user?.avatarUrl} // Add a URL or fallback if not available
+                            src={avatarSrc(user?.avatarUrl, true)} // Add a URL or fallback if not available
                             sx={{ width: 80, height: 80 }}
                         />
                     </Grid>
@@ -46,7 +46,15 @@ function ProfileCard({ user, onEdit }) {
                             <Typography variant="subtitle2" color="textSecondary">
                                 Email:
                             </Typography>
-                            <Typography variant="body1">{user?.email}</Typography>
+                            <Typography variant="body1" gutterBottom>
+                                {user?.email}
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <Typography variant="subtitle2" color="textSecondary">
+                                Birthday:
+                            </Typography>
+                            <Typography variant="body1">{user?.birthday || "YYYY-MM-DD"}</Typography>
                         </Box>
                     </Grid>
                 </Grid>

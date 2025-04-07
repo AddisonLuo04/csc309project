@@ -1,11 +1,20 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+
+// define the upload directory
+const uploadDir = 'uploads/avatars';
+
+// if the directory does not exists, create it
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // configure storage for avatar uploads
 const storage = multer.diskStorage({
     // save files to uploads/avatars/ directory
     destination: function (req, file, cb) {
-        cb(null, 'uploads/avatars/');
+        cb(null, uploadDir);
     },
     // save file as <utorid>.(extension)
     filename: function (req, file, cb) {

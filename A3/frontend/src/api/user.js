@@ -18,13 +18,20 @@ export const getCurrentUserAPI = async (token) => {
 };
 
 export const updateProfileAPI = async (profileData, token) => {
+    const formData = new FormData();
+    formData.append("name", profileData.name);
+    formData.append("email", profileData.email);
+    formData.append("birthday", profileData.birthday);
+    if (profileData.avatar) {
+        formData.append("avatar", profileData.avatar);
+    }
+
     const res = await fetch(`${BACKEND_URL}/users/me`, {
         method: 'PATCH',
         headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(profileData)
+        body: formData
     });
     if (!res.ok) {
         const errorData = await res.json();
@@ -35,7 +42,7 @@ export const updateProfileAPI = async (profileData, token) => {
 }
 
 export const updatePasswordAPI = async (oldPassword, newPassword, token) => {
-    const res = await fetch(`${API_URL}/users/me/password`, {
+    const res = await fetch(`${BACKEND_URL}/users/me/password`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -49,4 +56,12 @@ export const updatePasswordAPI = async (oldPassword, newPassword, token) => {
         throw new Error(errorMsg);
     }
     return await res.json();
+};
+
+export const avatarSrc = (avatarUrl, bustCache = false) => {
+    let url = `${BACKEND_URL}${avatarUrl}`;
+    if (bustCache) {
+        url += `?t=${Date.now()}`;
+    }
+    return url;
 };
