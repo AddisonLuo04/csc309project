@@ -43,6 +43,10 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const getAvailableInterfaces = async () => {
+        
+    };
+
     return (
         <UserContext.Provider value={{
             user, loading, error, setError, updateProfile, updatePassword, avatarSrc

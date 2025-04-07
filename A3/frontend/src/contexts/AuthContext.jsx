@@ -15,6 +15,10 @@ export const AuthProvider = ({ children }) => {
     // invariant: token and user should always represent the same current user
     // on token change, user is updated via the useEffect hook
 
+    // use an authLoading state to maintain auth after hard reloads
+    const [authLoading, setAuthLoading] = useState(true);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
+
     // loading and error states for feedback to be used in children
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -45,11 +49,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
+        setIsLoggingOut(true);
         setUser(null);
         setToken(null);
         localStorage.removeItem('token');
         // navigate to default landing page, or somewhere else
         navigate("/");
+        setIsLoggingOut(false);
     };
 
     // get current user and set it in this context
@@ -101,20 +107,29 @@ export const AuthProvider = ({ children }) => {
 
     // register
 
-    // on mount/on token change, run a useEffect hook to fetch the current user info
+    // on mount/on token change, run a useEffect hook to load the current user info
     // fetch will set the current user
     useEffect(() => {
-        if (token) {
-            fetchUser().catch(() => logout());
-        } else {
-            setUser(null);
-        }
+        const loadUser = async () => {
+            if (token) {
+                try {
+                    await fetchUser();
+                } catch (err) {
+                    logout();
+                }
+            } else {
+                setUser(null);
+            }
+            setAuthLoading(false);
+        };
+        loadUser();
     }, [token]);
 
     return (
         <AuthContext.Provider value={{
             user, token, loading, error, setUser, clearError, setError,
-            login, logout, fetchUser, requestPasswordReset, resetPassword
+            login, logout, fetchUser, requestPasswordReset, resetPassword,
+            authLoading, isLoggingOut
             /* and other global vars */
         }}>
             {children}
