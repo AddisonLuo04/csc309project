@@ -21,12 +21,12 @@ function Login() {
     return <>
         <h2>Login</h2>
         <form onSubmit={handle_submit}>
-            <label htmlFor="username">User Name:</label>
+            <label htmlFor="username">UTORid:</label>
             <input
                 type="text"
                 id="username"
                 name="username"
-                placeholder='User Name'
+                placeholder='UTORid'
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required

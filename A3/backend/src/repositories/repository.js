@@ -53,16 +53,20 @@ async function getUsersWithFilters(filters, skip, take) {
 }
 
 async function getUserById(userId) {
-    return await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
         where: { id: userId },
         include: {
             userPromotions: {
                 include: {
                     promotion: true
                 }
-            }
+            },
+            transactions: true,
+            eventsAsGuest: true,
+            eventsAsOrganizer: true
         }
     });
+    return user;
 }
 
 async function updateLastLogin(utorid) {

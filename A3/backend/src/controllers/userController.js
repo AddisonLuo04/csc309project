@@ -232,7 +232,10 @@ async function getCurrentUser(req, res) {
             lastLogin: user.lastLogin,
             verified: user.verified,
             avatarUrl: user.avatarUrl,
-            promotions: promos
+            promotions: promos,
+            transactions: user.transactions,
+            eventsAsGuest: user.eventsAsGuest,
+            eventAsOrganizer: user.eventsAsOrganizer
         }
 
         return res.status(200).json(filteredUser);
