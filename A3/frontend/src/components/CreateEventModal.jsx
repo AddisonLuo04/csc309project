@@ -98,8 +98,8 @@ const CreateEventModal = () => {
                 <label htmlFor="capacity">Capacity:</label>
                 <TextField
                     type="number"
-                    id="rate"
-                    name="rate"
+                    id="capacity"
+                    name="capacity"
                     value={eventData.capacity}
                     onChange={handleFormChange}
                 />

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
-import { createEventAPI } from '../api/event';
+import { createEventAPI, getEventsAPI } from '../api/event';
 import { useUser } from './UserContext';
 
 export const EventContext = createContext(null);
@@ -9,11 +9,10 @@ export const EventProvider = ({ children }) => {
     const { token, user } = useAuth();
     const [loading, setLoading] = useState(false);
     const [createMessage, setCreateMessage] = useState(null);
-    const [promotions, setPromotions] = useState([]);
+    const [events, setEvents] = useState([]);
     const [allEventsCount, setAllEventsCount] = useState(0);
 
     const addEvent = async (formData) => {
-        console.log(formData);
         setLoading(true);
         setCreateMessage(null);
         const data = {
@@ -39,10 +38,22 @@ export const EventProvider = ({ children }) => {
         }
     };
 
+    const getAllEventsCount = async () => {
+        setLoading(true);
+        try {
+            const response = await getEventsAPI('', token);
+            setAllEventsCount(response.count);
+        } catch(err) {
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <EventContext.Provider value={{
-            user, loading, createMessage, setCreateMessage, addEvent,
+            user, loading, createMessage, allEventsCount, setCreateMessage, addEvent, getAllEventsCount
         }}>
             {children}
         </EventContext.Provider>

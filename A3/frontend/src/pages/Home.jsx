@@ -9,6 +9,7 @@ import CreatePurchaseModal from "../components/CreatePurchaseModal";
 import ProcessRedemptionModal from "../components/ProcessRedemptionModal";
 import { useDashboard } from "../contexts/DashboardContext";
 import { usePromotion } from "../contexts/PromotionContext";
+import { useEvent } from "../contexts/EventContext";
 
 function Home() {
     const { user } = useAuth();
@@ -16,10 +17,12 @@ function Home() {
     const { setPurchaseMessage, setRedemptionMessage } = useDashboard();
 
     const { allPromotionsCount, getAllPromotionsCount } = usePromotion();
+    const { allEventsCount, getAllEventsCount } = useEvent();
 
     useEffect(() => {
         // Get promotions count on mount
         getAllPromotionsCount();
+        getAllEventsCount();
     }, []);
 
     // Get recent transactions (max 3)
@@ -106,7 +109,7 @@ function Home() {
                                 Events
                             </Typography>
                             <Typography variant="body2">
-                                Eventinfo
+                                There is a total of {allEventsCount} {allEventsCount === 1 ? 'event.' : 'events.' }
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>

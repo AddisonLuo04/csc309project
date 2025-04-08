@@ -21,3 +21,20 @@ export const createEventAPI = async (payload, token) => {
     }
     return await res.json();
 };
+
+export const getEventsAPI = async (path, token) => {
+    const base = new URL(`${BACKEND_URL}/events`);
+    const url = new URL(path, base);
+    const res = await fetch(url, {
+        method: 'GET', 
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Get Events Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};
