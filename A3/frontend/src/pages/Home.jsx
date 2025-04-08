@@ -61,33 +61,31 @@ function Home() {
                         )}
                         </CardContent>
                     </Card>
-                    <Button variant="outlined" onClick={() => navigate("/transaction")}>Transactions Page</Button>
                 </div>
-                <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
-                    <Button variant="outlined">See Events</Button>
-                    <Button variant="outlined">See Promotions</Button>
+                <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                    <Button variant="outlined" onClick={() => navigate("/transaction")}>Transactions Page</Button>
+                    <Button variant="outlined">Events Page</Button>
+                    <Button variant="outlined" onClick={() => navigate("/promotion")}>Promotions Page</Button>
                 </div>
             </>
             : currentInterface === "cashier" ? <>
                 {/* Cashier*/}
                 <h2>Dashboard</h2>
-                <div>
+                <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
                     <Button variant="outlined" onClick={handleOpenForm}>Create Purchase</Button>
                     <Modal open={openForm} onClose={handleCloseForm}>
                         <CreatePurchaseModal />
                     </Modal>
-                </div>
-                <div>
                     <Button variant="outlined" onClick={handleOpenRedemption}>Process Redemption</Button>
                     <Modal open={openRedemption} onClose={handleCloseRedemption}>
                         <ProcessRedemptionModal />
                     </Modal>
-                </div>
-                <div>
                     <Button variant="outlined" onClick={() => navigate('/register')}>Register a User</Button>
                 </div>
-                <div>
+                <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
                     <Button variant="outlined" onClick={() => navigate("/transaction")}>Transactions Page</Button>
+                    <Button variant="outlined">Events Page</Button>
+                    <Button variant="outlined" onClick={() => navigate("/promotion")}>Promotions Page</Button>
                 </div>
             </>
             : <>
@@ -117,7 +115,7 @@ function Home() {
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>
-                            <Button size="small" variant="outlined">Manage Promotions</Button>
+                            <Button size="small" variant="outlined" onClick={() => navigate("/promotion")}>Manage Promotions</Button>
                         </CardActions>
                     </Card>
                     <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>

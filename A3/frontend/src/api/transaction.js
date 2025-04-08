@@ -45,3 +45,20 @@ export const processRedemptionAPI = async (redemptionId, token) => {
     }
     return await res.json();
 };
+
+export const getAllTransactionsAPI = async (path, token) => {
+    const base = new URL(`${BACKEND_URL}/transactions`);
+    const url = new URL(path, base);
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Get Transactions Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};

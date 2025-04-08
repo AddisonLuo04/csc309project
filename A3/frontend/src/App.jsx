@@ -14,6 +14,8 @@ import { DashboardProvider } from "./contexts/DashboardContext";
 import Register from "./pages/Register";
 import Transaction from "./pages/Transaction";
 import { TransactionProvider } from "./contexts/TransactionContext";
+import Promotion from "./pages/Promotion";
+import { PromotionProvider } from "./contexts/PromotionContext";
 
 
 const theme = createTheme();
@@ -51,6 +53,14 @@ const MyRoutes = () => {
                     </ProtectedRoute>
                 }
             />
+            <Route 
+                path="/promotion"
+                element={
+                    <ProtectedRoute clearanceLevel="regular">
+                        <Promotion />
+                    </ProtectedRoute>
+                }
+            />
             {/* catch-all route */}
             <Route path="*" element={<NotFound />} />
         </Route>
@@ -65,7 +75,9 @@ function App() {
                 <UserProvider>
                     <DashboardProvider>
                         <TransactionProvider>
-                            <MyRoutes />
+                            <PromotionProvider>
+                                <MyRoutes />
+                            </PromotionProvider>
                         </TransactionProvider>
                     </DashboardProvider>
                 </UserProvider>

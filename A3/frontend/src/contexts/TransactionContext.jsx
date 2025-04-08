@@ -58,13 +58,13 @@ export const TransactionProvider = ({ children }) => {
     };
 
     return (
-            <TransactionContext.Provider value={{
-                user, loading, transferMessage, redemptionMessage,
-                setTransferMessage, setRedemptionMessage, addTransfer, addRedemption,
-            }}>
-                {children}
-            </TransactionContext.Provider>
-        );
+        <TransactionContext.Provider value={{
+            user, loading, transferMessage, redemptionMessage,
+            setTransferMessage, setRedemptionMessage, addTransfer, addRedemption,
+        }}>
+            {children}
+        </TransactionContext.Provider>
+    );
 };
 
 export const useTransaction = () => {

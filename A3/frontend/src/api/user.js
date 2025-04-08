@@ -58,7 +58,7 @@ export const updatePasswordAPI = async (oldPassword, newPassword, token) => {
         const errorMsg = `Update password failed: ${errorData.error || 'Unknown error'}`;
         throw new Error(errorMsg);
     }
-    return await res;
+    return await res.json();
 };
 
 export const avatarSrc = (avatarUrl, bustCache = false) => {
@@ -117,6 +117,23 @@ export const addRedemptionAPI = async (payload, token) => {
     if (!res.ok) {
         const errorData = await res.json();
         const errorMsg = `Create Redemption Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};
+
+export const getOwnTransactionsAPI = async (path, token) => {
+    const base = new URL(`${BACKEND_URL}/users/me/transactions`);
+    const url = new URL(path, base);
+    const res = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Get Transactions Failed: ${errorData.error || 'Unknown error'}`;
         throw new Error(errorMsg);
     }
     return await res.json();
