@@ -75,7 +75,8 @@ export const DashboardProvider = ({ children }) => {
 
     return (
         <DashboardContext.Provider value={{
-            user, loading, purchaseMessage, redemptionMessage, setPurchaseMessage, setRedemptionMessage, addPurchase, processRedemption
+            user, loading, purchaseMessage, redemptionMessage, 
+            setPurchaseMessage, setRedemptionMessage, addPurchase, processRedemption
         }}>
             {children}
         </DashboardContext.Provider>

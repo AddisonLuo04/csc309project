@@ -12,18 +12,18 @@ import { useDashboard } from "../contexts/DashboardContext";
 function Home() {
     const { user } = useAuth();
     const { currentInterface } = useUser();
-    const { setPurchaseError, setRedemptionError } = useDashboard();
+    const { setPurchaseMessage, setRedemptionMessage } = useDashboard();
 
     // Get recent transactions (max 3)
     const recentTransactions = user?.transactions?.slice(0, 3);
 
     const [openForm, setOpenForm] = useState(false);
     const handleOpenForm = () => setOpenForm(true);
-    const handleCloseForm = () => { setPurchaseError(null); setOpenForm(false); }
+    const handleCloseForm = () => { setPurchaseMessage(null); setOpenForm(false); }
 
     const [openRedemption, setOpenRedemption] = useState(false);
     const handleOpenRedemption = () => setOpenRedemption(true);
-    const handleCloseRedemption = () => { setRedemptionError(null); setOpenRedemption(false); }
+    const handleCloseRedemption = () => { setRedemptionMessage(null); setOpenRedemption(false); }
 
     const navigate = useNavigate();
 
@@ -86,9 +86,47 @@ function Home() {
                     : <>
                         {/* Manager/Superuser*/}
                         <h2>Dashboard</h2>
-                        <p>Manage Events</p>
-                        <p>Manage Promotions</p>
-                        <p>Manage Users</p>
+                        <div style={{display: "flex", gap: "8px"}}>
+                            <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                        Events
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Eventinfo
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{position: "absolute", bottom: "0"}}>
+                                    <Button size="small" variant="outlined">Manage Events</Button>
+                                </CardActions>
+                            </Card>
+                            <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                        Promotions
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Eventinfo here
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{position: "absolute", bottom: "0"}}>
+                                    <Button size="small" variant="outlined">Manage Promotions</Button>
+                                </CardActions>
+                            </Card>
+                            <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h6" component="div">
+                                        Users
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        Eventinfo here
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{position: "absolute", bottom: "0"}}>
+                                    <Button size="small" variant="outlined">Manage Users</Button>
+                                </CardActions>
+                            </Card>
+                        </div>
                     </>
             : (<> {/* Not logged in*/}
                 <h1>Welcome to A3!</h1>
