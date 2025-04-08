@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./main.css";
 import { useAuth } from "../contexts/AuthContext";
@@ -8,11 +8,19 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CreatePurchaseModal from "../components/CreatePurchaseModal";
 import ProcessRedemptionModal from "../components/ProcessRedemptionModal";
 import { useDashboard } from "../contexts/DashboardContext";
+import { usePromotion } from "../contexts/PromotionContext";
 
 function Home() {
     const { user } = useAuth();
     const { currentInterface } = useUser();
     const { setPurchaseMessage, setRedemptionMessage } = useDashboard();
+
+    const { allPromotionsCount, getAllPromotionsCount } = usePromotion();
+
+    useEffect(() => {
+        // Get promotions count on mount
+        getAllPromotionsCount();
+    }, []);
 
     // Get recent transactions (max 3)
     const recentTransactions = user?.transactions?.slice(0, 3);
@@ -64,7 +72,7 @@ function Home() {
                 </div>
                 <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
                     <Button variant="outlined" onClick={() => navigate("/transaction")}>Transactions Page</Button>
-                    <Button variant="outlined">Events Page</Button>
+                    <Button variant="outlined" onClick={() => navigate("/event")}>Events Page</Button>
                     <Button variant="outlined" onClick={() => navigate("/promotion")}>Promotions Page</Button>
                 </div>
             </>
@@ -84,7 +92,7 @@ function Home() {
                 </div>
                 <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
                     <Button variant="outlined" onClick={() => navigate("/transaction")}>Transactions Page</Button>
-                    <Button variant="outlined">Events Page</Button>
+                    <Button variant="outlined" onClick={() => navigate("/event")}>Events Page</Button>
                     <Button variant="outlined" onClick={() => navigate("/promotion")}>Promotions Page</Button>
                 </div>
             </>
@@ -102,7 +110,7 @@ function Home() {
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>
-                            <Button size="small" variant="outlined">Manage Events</Button>
+                            <Button size="small" variant="outlined" onClick={() => navigate("/event")}>Manage Events</Button>
                         </CardActions>
                     </Card>
                     <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
@@ -111,7 +119,7 @@ function Home() {
                                 Promotions
                             </Typography>
                             <Typography variant="body2">
-                                Eventinfo here
+                                There is a total of {allPromotionsCount} {allPromotionsCount === 1 ? 'promotion.' : 'promotions.' }
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>

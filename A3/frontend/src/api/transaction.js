@@ -1,24 +1,13 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
 
 export const addPurchaseAPI = async (payload, token) => {
-    const formData = {
-        utorid: payload.username,
-        type: payload.type,
-        spent: payload.spent
-    };
-    if (payload.promotionIds) {
-        formData.promotionIds = payload.promotionIds;
-    }
-    if (payload.remark) {
-        formData.remark = payload.remark;
-    }
     const res = await fetch(`${BACKEND_URL}/transactions`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
     });
     if (!res.ok) {
         const errorData = await res.json();
@@ -58,6 +47,23 @@ export const getAllTransactionsAPI = async (path, token) => {
     if (!res.ok) {
         const errorData = await res.json();
         const errorMsg = `Get Transactions Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};
+
+export const createAdjustmentAPI = async (payload, token) => {
+    const res = await fetch(`${BACKEND_URL}/transactions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Create Adjustment Failed: ${errorData.error || 'Unknown error'}`;
         throw new Error(errorMsg);
     }
     return await res.json();

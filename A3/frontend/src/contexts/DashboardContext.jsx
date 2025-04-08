@@ -31,7 +31,7 @@ export const DashboardProvider = ({ children }) => {
         setPurchaseMessage(null);
         const parsedSpent = parseFloat(formData.spent);
         const data = {
-            username: formData.username,
+            utorid: formData.username,
             type: formData.type,
             spent: parsedSpent,
         };

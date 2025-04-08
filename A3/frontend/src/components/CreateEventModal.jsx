@@ -1,25 +1,24 @@
 import { useState } from "react";
 import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
-import { usePromotion } from "../contexts/PromotionContext";
+import { useEvent } from "../contexts/EventContext";
 
-const CreatePromotionModal = () => {
-    const { createMessage, setCreateMessage, addPromotion } = usePromotion();
+const CreateEventModal = () => {
+    const { createMessage, setCreateMessage, addEvent } = useEvent();
 
-    const [promotionData, setPromotionData] = useState({
+    const [eventData, setEventData] = useState({
         name: "",
         description: "",
-        type: "",
+        location: "",
         startTime: "",
         endTime: "",
-        minSpending: "",
-        rate: "",
+        capacity: "",
         points: ""
     });
 
     const handleFormChange = (e) => {
         setCreateMessage(null);
-        setPromotionData({
-            ...promotionData,
+        setEventData({
+            ...eventData,
             [e.target.name]: e.target.value,
         });
     };
@@ -27,7 +26,7 @@ const CreatePromotionModal = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         try {
-            addPromotion(promotionData);
+            addEvent(eventData);
         } catch(err) {
             setCreateMessage(err);
         }
@@ -44,7 +43,7 @@ const CreatePromotionModal = () => {
         boxShadow: 24,
         p: 4,
         }}>
-            <form id="promotionForm" onSubmit={handleFormSubmit}>
+            <form id="transactionForm" onSubmit={handleFormSubmit}>
                 <label htmlFor="name">Name:</label>
                 <TextField 
                     type="text"
@@ -52,7 +51,7 @@ const CreatePromotionModal = () => {
                     name="name"
                     label="Name"
                     variant="outlined"
-                    value={promotionData.name}
+                    value={eventData.name}
                     onChange={handleFormChange}
                     required
                 />
@@ -63,31 +62,27 @@ const CreatePromotionModal = () => {
                     name="description"
                     label="Description"
                     variant="outlined"
-                    value={promotionData.description}
+                    value={eventData.description}
                     onChange={handleFormChange}
                     required
                 />
-                <label htmlFor="type">Type:</label>
-                <FormControl fullWidth required>
-                    <InputLabel id="type-label">Type</InputLabel>
-                    <Select
-                        labelId="type-label"
-                        id="type"
-                        name="type"
-                        value={promotionData.type}
-                        onChange={handleFormChange}
-                        label="Type"
-                    >
-                        <MenuItem value="automatic">automatic</MenuItem>
-                        <MenuItem value="one-time">one-time</MenuItem>
-                    </Select>
-                </FormControl>
+                <label htmlFor="location">Location:</label>
+                <TextField
+                    type="text"
+                    id="location"
+                    name="location"
+                    label="Location"
+                    variant="outlined"
+                    value={eventData.location}
+                    onChange={handleFormChange}
+                    required
+                />
                 <label htmlFor="startTime">Start Time:</label>
                 <TextField
                     type="datetime-local"
                     id="startTime"
                     name="startTime"
-                    value={promotionData.startTime}
+                    value={eventData.startTime}
                     onChange={handleFormChange}
                     required
                 />
@@ -96,24 +91,16 @@ const CreatePromotionModal = () => {
                     type="datetime-local"
                     id="endTime"
                     name="endTime"
-                    value={promotionData.endTime}
+                    value={eventData.endTime}
                     onChange={handleFormChange}
                     required
                 />
-                <label htmlFor="minSpending">Minimum Spending:</label>
-                <TextField
-                    type="number"
-                    id="minSpending"
-                    name="minSpending"
-                    value={promotionData.minSpending}
-                    onChange={handleFormChange}
-                />
-                <label htmlFor="rate">Rate:</label>
+                <label htmlFor="capacity">Capacity:</label>
                 <TextField
                     type="number"
                     id="rate"
                     name="rate"
-                    value={promotionData.rate}
+                    value={eventData.capacity}
                     onChange={handleFormChange}
                 />
                 <label htmlFor="points">Points:</label>
@@ -121,8 +108,9 @@ const CreatePromotionModal = () => {
                     type="number"
                     id="points"
                     name="points"
-                    value={promotionData.points}
+                    value={eventData.points}
                     onChange={handleFormChange}
+                    required
                 />
                 <div className="btn-container">
                     <input type="submit"/>
@@ -135,4 +123,4 @@ const CreatePromotionModal = () => {
     );
 }
 
-export default CreatePromotionModal;
+export default CreateEventModal;

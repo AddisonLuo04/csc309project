@@ -48,7 +48,7 @@ export const TransactionProvider = ({ children }) => {
         }
         try {
             const redemption = await addRedemptionAPI(data, token);
-            setRedemptionMessage('Success!');
+            setRedemptionMessage("Success!");
         } catch(err) {
             setRedemptionMessage(err.message);
             throw err;
@@ -56,6 +56,8 @@ export const TransactionProvider = ({ children }) => {
             setLoading(false);
         }
     };
+
+
 
     return (
         <TransactionContext.Provider value={{

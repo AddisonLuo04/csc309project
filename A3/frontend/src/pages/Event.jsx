@@ -1,13 +1,15 @@
 import { useAuth } from "../contexts/AuthContext";
 import { useUser } from "../contexts/UserContext";
 import { Button, Modal } from "@mui/material";
-import { usePromotion } from "../contexts/PromotionContext";
-import CreatePromotionModal from "../components/CreatePromotionModal";
+import { useEvent } from "../contexts/EventContext";
+import CreateEventModal from "../components/CreateEventModal";
+
+
 import { useState } from "react";
 
-function Promotion () {
+function Event () {
     const { currentInterface } = useUser();
-    const { promotions, setCreateMessage } = usePromotion();
+    const { setCreateMessage } = useEvent();
 
     const [openCreate, setOpenCreate] = useState(false);
     const handleOpenCreate = () => setOpenCreate(true);
@@ -20,13 +22,13 @@ function Promotion () {
             <div>cas/reg</div>
         </>
         : <>
-            <Button variant="outlined" onClick={handleOpenCreate}>Create Promotion</Button>
+            <Button variant="outlined" onClick={handleOpenCreate}>Create Event</Button>
             <Modal open={openCreate} onClose={handleCloseCreate}>
-                <CreatePromotionModal />
+                <CreateEventModal />
             </Modal>
         </>
         }
     </>;
 };
 
-export default Promotion;
+export default Event;
