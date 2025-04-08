@@ -3,23 +3,24 @@ import {
     Box,
     TextField,
 } from "@mui/material";
-import { useDashboard } from "../contexts/DashboardContext";
+import { useTransaction } from "../contexts/TransactionContext";
 
-const CreatePurchaseModal = () => {
-    const { purchaseMessage, setPurchaseMessage, addPurchase } = useDashboard();
 
-    const [purchaseData, setPurchaseData] = useState({
-        username: "",
-        type: "purchase",
-        spent: "",
-        promotionIds: "",
+const CreateTransferModal = () => {
+const { transferMessage, setTransferMessage, addTransfer } = useTransaction();
+
+    const [transferData, setTransferData] = useState({
+        userId: "",
+        type: "transfer",
+        amount: "",
         remark: ""
     });
 
+
     const handleFormChange = (e) => {
-        setPurchaseMessage(null);
-        setPurchaseData({
-            ...purchaseData,
+        setTransferMessage(null);
+        setTransferData({
+            ...transferData,
             [e.target.name]: e.target.value,
         });
     };
@@ -27,9 +28,9 @@ const CreatePurchaseModal = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         try {
-            addPurchase(purchaseData);
+            addTransfer(transferData);
         } catch(err) {
-            setPurchaseMessage(err);
+            setTransferMessage(err);
         }
     };
 
@@ -45,38 +46,27 @@ const CreatePurchaseModal = () => {
         p: 4,
         }}>
             <form id="transactionForm" onSubmit={handleFormSubmit}>
-                <label htmlFor="utorid">UTORid:</label>
+                <label htmlFor="userId">User ID:</label>
                 <TextField
-                    type="text"
-                    id="username"
-                    name="username"
-                    label="UTORid"
+                    type="number"
+                    id="userId"
+                    name="userId"
+                    label="User ID"
                     variant="outlined"
-                    value={purchaseData.username}
+                    value={transferData.userId}
                     onChange={handleFormChange}
                     required
                 />
-                <label htmlFor="spent">Spent:</label>
+                <label htmlFor="amount">Amount:</label>
                 <TextField 
                     type="number"
-                    id="spent"
-                    name="spent"
-                    label="Spent"
+                    id="amount"
+                    name="amount"
+                    label="Amount"
                     variant="outlined"
-                    value={purchaseData.spent}
+                    value={transferData.amount}
                     onChange={handleFormChange}
                     required
-                />
-                <label htmlFor="promotionIds">Enter promotion IDs 
-                    <br></br>(space-separated):</label>
-                <TextField
-                    type="text"
-                    id="promotionIds"
-                    name="promotionIds"
-                    label="Promotion IDs"
-                    variant="outlined"
-                    value={purchaseData.promotionIds}
-                    onChange={handleFormChange}
                 />
 
                 <label htmlFor="remark">Remark:</label>
@@ -86,7 +76,7 @@ const CreatePurchaseModal = () => {
                     name="remark"
                     label="Remark"
                     variant="outlined"
-                    value={purchaseData.remark}
+                    value={transferData.remark}
                     onChange={handleFormChange}
                 />
                 <div className="btn-container">
@@ -94,10 +84,10 @@ const CreatePurchaseModal = () => {
                 </div>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "10px"}}>
-                {purchaseMessage && <p>{purchaseMessage}</p>}
+                {transferMessage && <p>{transferMessage}</p>}
             </div>
         </Box>
     );
 }
 
-export default CreatePurchaseModal;
+export default CreateTransferModal;

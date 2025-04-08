@@ -11,10 +11,10 @@ const Layout = () => {
     const { currentInterface, setCurrentInterface, availableInterfaces } = useUser();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // go back to the dashboard when currentInterface is updated
-        navigate("/")
-    }, [currentInterface])
+    // useEffect(() => {
+    //     // go back to the dashboard when currentInterface is updated
+    //     navigate("/")
+    // }, [currentInterface])
 
     return <>
         <header>

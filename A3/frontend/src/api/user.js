@@ -87,3 +87,37 @@ export const registerAPI = async (utorid, name, email, token) => {
     }
     return await res.json();
 };
+
+export const addTransferAPI = async (userId, payload, token) => {
+    const res = await fetch(`${BACKEND_URL}/users/${userId}/transactions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Create Transfer Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};
+
+export const addRedemptionAPI = async (payload, token) => {
+    const res = await fetch(`${BACKEND_URL}/users/me/transactions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Create Redemption Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};

@@ -6,11 +6,11 @@ import {
 } from "@mui/material";
 
 const ProcessRedemptionModal = () => {
-    const { redemptionError, setRedemptionError, processRedemption } = useDashboard();
+    const { redemptionMessage, setRedemptionMessage, processRedemption } = useDashboard();
     const [redemptionId, setRedemptionId] = useState("");
 
     const handleRedemptionChange = (e) => {
-        setRedemptionError(null);
+        setRedemptionMessage(null);
         setRedemptionId(e.target.value); 
     };
 
@@ -19,7 +19,7 @@ const ProcessRedemptionModal = () => {
         try {
             processRedemption(redemptionId);
         } catch(err) {
-            setRedemptionError(err);
+            setRedemptionMessage(err);
         }
     };
 
@@ -50,7 +50,7 @@ const ProcessRedemptionModal = () => {
                 </div>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "10px"}}>
-                {redemptionError && <p style={{ color: 'red'}}>{redemptionError}</p>}
+                {redemptionMessage && <p>{redemptionMessage}</p>}
             </div>
         </Box>
     );

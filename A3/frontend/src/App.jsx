@@ -12,6 +12,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import { DashboardProvider } from "./contexts/DashboardContext";
 import Register from "./pages/Register";
+import Transaction from "./pages/Transaction";
+import { TransactionProvider } from "./contexts/TransactionContext";
 
 
 const theme = createTheme();
@@ -41,6 +43,14 @@ const MyRoutes = () => {
                 </ProtectedRoute>
                 }
             />
+            <Route 
+                path="/transaction"
+                element={
+                    <ProtectedRoute clearanceLevel="regular">
+                        <Transaction />
+                    </ProtectedRoute>
+                }
+            />
             {/* catch-all route */}
             <Route path="*" element={<NotFound />} />
         </Route>
@@ -54,7 +64,9 @@ function App() {
             <AuthProvider>
                 <UserProvider>
                     <DashboardProvider>
-                        <MyRoutes />
+                        <TransactionProvider>
+                            <MyRoutes />
+                        </TransactionProvider>
                     </DashboardProvider>
                 </UserProvider>
             </AuthProvider>
