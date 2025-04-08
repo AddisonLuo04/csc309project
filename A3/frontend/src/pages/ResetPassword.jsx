@@ -4,10 +4,9 @@ import "./form.css";
 import ResetTokenFlow from "../components/ResetTokenFlow";
 
 function ResetPassword() {
-    const { requestPasswordReset, resetPassword, error, clearError, setError } = useAuth();
+    const { requestPasswordReset, error, clearError } = useAuth();
     const [utorid, setUtorid] = useState("");
     const [resetToken, setResetToken] = useState(null);
-    const [showResetForm, setShowResetForm] = useState(false);
 
     // on mount, clear the error
     useEffect(() => {
@@ -29,13 +28,13 @@ function ResetPassword() {
     return (
         <>
             <h2>Reset Password</h2>
-
-            {!resetToken && !showResetForm && (
+            {!resetToken ? (
                 <form onSubmit={handleRequestSubmit}>
                     <label htmlFor="utorid">UTORid:</label>
                     <input
                         type="text"
                         id="utorid"
+                        placeholder="UTORid"
                         value={utorid}
                         onChange={(e) => setUtorid(e.target.value)}
                         required
@@ -45,24 +44,11 @@ function ResetPassword() {
                     </div>
                     <p className="error">{error}</p>
                 </form>
-            )}
-
-            {resetToken && !showResetForm && (
-                <>
-                    <p>Your reset token is: <strong>{resetToken}</strong></p>
-                    <p>Please copy and paste the reset token in the next step.</p>
-                    <div className="btn-container">
-                        <button onClick={() => setShowResetForm(true)}>
-                            Proceed to Reset Your Password
-                        </button>
-                    </div>
-                </>
-            )}
-
-            {showResetForm && (
-                <ResetTokenFlow
-                    utoridFromParent={utorid}
-                    resetTokenFromParent={resetToken}
+            ) : (
+                // use the reusable ResetTokenFlow component
+                <ResetTokenFlow 
+                    utoridFromParent={utorid} 
+                    resetTokenFromParent={resetToken} 
                 />
             )}
         </>

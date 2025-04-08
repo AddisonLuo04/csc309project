@@ -1,13 +1,21 @@
 import "./Layout.css";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AppBar, MenuItem, Select } from '@mui/material';
 // for authorization
 import { useAuth } from "../contexts/AuthContext"
 import { useUser } from "../contexts/UserContext";
+import { useEffect } from "react";
 
 const Layout = () => {
-    const { user, logout, clearError } = useAuth();
+    const { user, logout } = useAuth();
     const { currentInterface, setCurrentInterface, availableInterfaces } = useUser();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // go back to the dashboard when currentInterface is updated
+        navigate("/")
+    }, [currentInterface])
+
     return <>
         <header>
             {/* <AppBar color="#4a4e69">  --> trying app bar out but style isnt great so far*/}
