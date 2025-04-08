@@ -4,7 +4,7 @@ const NotFound = ({ type = "notfound" }) => {
             {type === "unauthorized" ? (
                 <>
                     <h2>403 - Unauthorized</h2>
-                    <p>You must be logged in to view this page.</p>
+                    <p>You do not have access to this page.</p>
                 </>
             ) : (
                 <>

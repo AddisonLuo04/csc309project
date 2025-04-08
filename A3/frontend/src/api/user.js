@@ -21,7 +21,10 @@ export const updateProfileAPI = async (profileData, token) => {
     const formData = new FormData();
     formData.append("name", profileData.name);
     formData.append("email", profileData.email);
-    formData.append("birthday", profileData.birthday);
+    // check if birthday is undefined/falsy before adding
+    if (profileData.birthday && profileData.birthday !== "undefined") {
+        formData.append("birthday", profileData.birthday);
+    }
     if (profileData.avatar) {
         formData.append("avatar", profileData.avatar);
     }
@@ -64,4 +67,23 @@ export const avatarSrc = (avatarUrl, bustCache = false) => {
         url += `?t=${Date.now()}`;
     }
     return url;
+};
+
+
+export const registerAPI = async (utorid, name, email, token) => {
+    const res = await fetch(`${BACKEND_URL}/users`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ utorid, name, email }),
+    });
+    if (!res.ok) {
+        // get the error message back from the backend
+        const errorData = await res.json();
+        const errorMsg = `Register failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
 };

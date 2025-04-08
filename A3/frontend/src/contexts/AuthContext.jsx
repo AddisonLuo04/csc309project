@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginAPI, requestPasswordResetAPI, resetPasswordAPI } from '../api/auth';
-import { getCurrentUserAPI } from '../api/user';
+import { getCurrentUserAPI, registerAPI } from '../api/user';
 
 export const AuthContext = createContext(null);
 
@@ -106,6 +106,19 @@ export const AuthProvider = ({ children }) => {
     };
 
     // register
+    const register = async (utorid, name, email) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await registerAPI(utorid, name, email, token);
+            return data;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
 
     // on mount/on token change, run a useEffect hook to load the current user info
     // fetch will set the current user
@@ -129,7 +142,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             user, token, loading, error, setUser, clearError, setError,
             login, logout, fetchUser, requestPasswordReset, resetPassword,
-            authLoading, isLoggingOut
+            authLoading, isLoggingOut, register
             /* and other global vars */
         }}>
             {children}

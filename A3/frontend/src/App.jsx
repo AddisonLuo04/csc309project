@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import { DashboardProvider } from "./contexts/DashboardContext";
+import Register from "./pages/Register";
 
 
 const theme = createTheme();
@@ -27,9 +28,17 @@ const MyRoutes = () => {
             <Route
                 path="/profile"
                 element={
-                    <ProtectedRoute>
+                    <ProtectedRoute clearanceLevel="regular">
                         <Profile />
                     </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/register"
+                element={
+                <ProtectedRoute clearanceLevel="cashier">
+                    <Register />
+                </ProtectedRoute>
                 }
             />
             {/* catch-all route */}

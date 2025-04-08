@@ -61,7 +61,7 @@ export const UserProvider = ({ children }) => {
                 interfaces.push('cashier', 'regular');
             } else {
                 interfaces.push('regular');
-                if (user.eventsAsOrganizer.length > 0) interfaces.push('event-organizer');
+                if (user.eventsAsOrganizer && user.eventsAsOrganizer.length > 0) interfaces.push('event-organizer');
             }
     
             setAvailableInterfaces(interfaces);

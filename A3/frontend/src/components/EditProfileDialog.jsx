@@ -75,11 +75,12 @@ const EditProfileDialog = ({ open, onClose, avatarSrc }) => {
 
         // Simple client-side validation (example)
         const errors = {};
-        if (!cleanedData.email.endsWith('utoronto.ca')) {
-            errors.email = "Must be a utoronto.ca email."
+        if (!cleanedData.email || !cleanedData.email.endsWith('utoronto.ca')) {
+            errors.email = "Must be a utoronto.ca email.";
         }
-        if (cleanedData.name.length > 50) errors.name = "Must be between 1-50 characters."
-
+        if (!cleanedData.name || cleanedData.name.length > 50) {
+            errors.name = "Must be between 1-50 characters.";
+        }
         if (Object.keys(errors).length > 0) {
             setFieldErrors(errors);
             return;
