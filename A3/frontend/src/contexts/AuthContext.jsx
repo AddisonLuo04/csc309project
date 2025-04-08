@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
     const clearError = () => setError(null);
 
     // use navigate so we can change pages without reload
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // functions for user authentication using the api calls...
     // TODO: add navigation after success for the following functions:
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     // request password reset
     const requestPasswordReset = async (utorid) => {
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     // reset password
     const resetPassword = async (utorid, newPassword, resetToken) => {
@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     // register
 

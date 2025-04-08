@@ -5,7 +5,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const users = [
-    {utorid: "clive123", password: "SuperUser123!", name: "clive123", emai: "clive.su@mail.utoronto.ca", verified: true, role: "superuser"},
+    {utorid: "clive123", password: "SuperUser123!", name: "clive123", email: "clive.su@mail.utoronto.ca", verified: true, role: "superuser"},
     {utorid: "johndoe1", password: "Password123!", name: "John Doe", email: "johndoe1@mail.utoronto.ca", verified: false, role: "regular"},
     {utorid: "newuser1", password: "Password123!", name: "Reg User 1", email: "newuser1@mail.utoronto.ca", verified: false, role: "regular"},
     {utorid: "newuser2", password: "Password123!", name: "Reg User 2", email: "newuser2@mail.utoronto.ca", verified: false, role: "regular"},
@@ -19,20 +19,29 @@ const users = [
 
 // TODO: add transactions
 const transactions = [
-    {utorid: "johndoe1", type: "purchase", spent: 10.00, amount: 40, createdBy: "clive123"}
+    // {utorid: "johndoe1", type: "purchase", spent: 10.00, amount: 40, createdBy: "clive123"},
+    {utorid: "johndoe1", type: "redemption", amount: -10, createdBy: "johndoe1"}
 ];
 
 // TODO: add events and promotions
 
 async function addUsers() {
-    const user = await prisma.user.create({data: users[0]});
-    console.log(user);
+    for (let user of users) {
+        const newUser = await prisma.user.create({data: user});
+        console.log(newUser);
+    }
 };
 
 async function addTransactions() {
-    const transaction = await prisma.transaction.create({data: transactions[0]});
-    console.log(transaction);
+    for (let transaction of transactions) {
+        const newTransaction = await prisma.transaction.create({data: transaction});
+        console.log(newTransaction);
+    }
 }
 
-addUsers();
-addTransactions();
+async function addData() {
+    // await addUsers();
+    await addTransactions();
+}
+
+addData();

@@ -10,6 +10,7 @@ import Success from "./pages/Success";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import { DashboardProvider } from "./contexts/DashboardContext";
 
 
 const theme = createTheme();
@@ -43,7 +44,9 @@ function App() {
         <BrowserRouter>
             <AuthProvider>
                 <UserProvider>
-                    <MyRoutes />
+                    <DashboardProvider>
+                        <MyRoutes />
+                    </DashboardProvider>
                 </UserProvider>
             </AuthProvider>
         </BrowserRouter>
