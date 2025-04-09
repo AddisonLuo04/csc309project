@@ -103,6 +103,7 @@ async function getUsers(payload) {
     order = order !== null ? order : undefined
     orderBy = orderBy !== null ? orderBy : undefined
     if (order !== undefined && orderBy !== undefined) {
+        if (orderBy === 'activated') orderBy = 'lastLogin';
         const sortableFields = ['utorid', 'name', 'email', 'role', 'verified', 'lastLogin', 'points'];
         if (orderBy !== undefined && !sortableFields.includes(orderBy)) {
             const error = new Error(`Invalid "orderBy" field, must be one of: ${sortableFields.join(', ')}`);
