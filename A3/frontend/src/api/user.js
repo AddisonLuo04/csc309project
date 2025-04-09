@@ -138,3 +138,21 @@ export const getOwnTransactionsAPI = async (path, token) => {
     }
     return await res.json();
 };
+
+export const getUsersAPI = async (params, token) => {
+    // build the query string from parameters
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`${BACKEND_URL}/users?${query}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Get Users Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};

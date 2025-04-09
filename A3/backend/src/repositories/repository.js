@@ -44,10 +44,15 @@ async function updatePassword(utorid, password) {
     })
 }
 
-async function getUsersWithFilters(filters, skip, take) {
+async function getUsersWithFilters(filters, skip, take, sortOptions = undefined) {
     const [count, results] = await Promise.all([
         prisma.user.count({ where: filters }),
-        prisma.user.findMany({ where: filters, skip, take })
+        prisma.user.findMany({
+            where: filters,
+            skip, 
+            take,
+            orderBy: sortOptions ? { [sortOptions.field] : sortOptions.direction } : undefined
+        })
     ]);
     return { count, results };
 }

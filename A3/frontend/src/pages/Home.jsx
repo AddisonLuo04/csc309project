@@ -139,7 +139,7 @@ function Home() {
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>
-                            <Button size="small" variant="outlined">Manage Users</Button>
+                            <Button size="small" variant="outlined" onClick={() => navigate("/users")}>Manage Users</Button>
                         </CardActions>
                     </Card>
                 </div>

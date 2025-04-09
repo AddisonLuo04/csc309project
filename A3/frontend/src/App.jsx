@@ -16,6 +16,7 @@ import Transaction from "./pages/Transaction";
 import { TransactionProvider } from "./contexts/TransactionContext";
 import Promotion from "./pages/Promotion";
 import { PromotionProvider } from "./contexts/PromotionContext";
+import UsersList from "./pages/UsersList";
 import Event from "./pages/Event";
 import { EventProvider } from "./contexts/EventContext";
 
@@ -60,6 +61,14 @@ const MyRoutes = () => {
                 element={
                     <ProtectedRoute clearanceLevel="regular">
                         <Promotion />
+                    </ProtectedRoute>
+                }
+            />
+            <Route 
+                path="/users"
+                element={
+                    <ProtectedRoute clearanceLevel="manager">
+                        <UsersList />
                     </ProtectedRoute>
                 }
             />

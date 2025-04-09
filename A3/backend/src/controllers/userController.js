@@ -40,7 +40,7 @@ async function getUsers(req, res) {
         // for get requests, the payload is in the request's query
         const payload = req.query;
         validatePayload(payload, ['name', 'role', 'verified',
-            'activated', 'page', 'limit'], []);
+            'activated', 'page', 'limit', 'order', 'orderBy'], []);
 
         const { count, results } = await userService.getUsers(payload);
 

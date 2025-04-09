@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { updateProfileAPI, avatarSrc, updatePasswordAPI } from '../api/user';
+import { updateProfileAPI, avatarSrc, updatePasswordAPI, getUsersAPI } from '../api/user';
 import { useAuth } from './AuthContext';
 
 export const UserContext = createContext(null);
@@ -55,6 +55,21 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    // get all users:
+    const getUsers = async (params) => {
+        if (!token) return;
+        setLoading(true);
+        setError(null);
+        try {
+            return await getUsersAPI(params, token);
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // on mount/user change, update the available and current interfaces
     useEffect(() => {
         // only make updates to interfaces if user has changed and it is a swapped user
@@ -87,7 +102,7 @@ export const UserProvider = ({ children }) => {
     return (
         <UserContext.Provider value={{
             user, loading, error, setError, updateProfile, updatePassword, avatarSrc,
-            currentInterface, setCurrentInterface, availableInterfaces
+            currentInterface, setCurrentInterface, availableInterfaces, getUsers
         }}>
             {children}
         </UserContext.Provider>
