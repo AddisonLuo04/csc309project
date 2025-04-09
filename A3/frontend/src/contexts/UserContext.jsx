@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { updateProfileAPI, avatarSrc, updatePasswordAPI, getUsersAPI, getUserAPI, getOwnTransactionsAPI } from '../api/user';
+import { updateProfileAPI, avatarSrc, updatePasswordAPI, getUsersAPI, getUserAPI, getOwnTransactionsAPI, updateUserStatusAPI } from '../api/user';
 import { useAuth } from './AuthContext';
 
 export const UserContext = createContext(null);
@@ -23,6 +23,7 @@ export const UserProvider = ({ children }) => {
 
     // store single user for user page
     const [singleUser, setSingleUser] = useState(null);
+    const [statusChange, setStatusChange] = useState(false);
 
     // function to update the current user's profile
     const updateProfile = async (profileData) => {
@@ -66,7 +67,7 @@ export const UserProvider = ({ children }) => {
         try {
             const response = await getUsersAPI('', token);
             setAllUsersCount(response.count);
-        } catch(err) {
+        } catch (err) {
             throw err;
         } finally {
             setLoading(false);
@@ -94,7 +95,7 @@ export const UserProvider = ({ children }) => {
         try {
             const user = await getUserAPI(parsedId, token);
             setSingleUser(user);
-        } catch(err) {
+        } catch (err) {
             setSingleUser(null);
             setError(err.message);
             throw err;
@@ -109,7 +110,7 @@ export const UserProvider = ({ children }) => {
         setError(null);
         try {
             return await getOwnTransactionsAPI(params, token);
-        } catch(err) {
+        } catch (err) {
             setError(err.message);
             throw err;
         } finally {
@@ -117,13 +118,41 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const updateUserStatus = async (userId, params) => {
+        if (!token) return;
+        setLoading(true);
+        setError(null);
+        const parsedId = parseInt(userId);
+        try {
+            return await updateUserStatusAPI(parsedId, params, token);
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // on a status change of a user from a manager, fetch+update the user
+    useEffect(() => {
+        async function fetchData() {
+            if (singleUser && statusChange) {
+                const updated = await getUserAPI(singleUser.id, token);
+                setSingleUser(updated);
+            } else {
+                setStatusChange(false);
+            }
+        }
+        fetchData();
+    }, [statusChange])
+
     // on mount/user change, update the available and current interfaces
     useEffect(() => {
         // only make updates to interfaces if user has changed and it is a swapped user
         // if user has changed but we haven't swapped, means profile/some other update
         if (user && swappedUser) {
             const interfaces = [];
-    
+
             if (user.role === 'superuser') {
                 interfaces.push('superuser', 'manager', 'cashier', 'regular');
             } else if (user.role === 'manager') {
@@ -134,7 +163,7 @@ export const UserProvider = ({ children }) => {
                 interfaces.push('regular');
                 if (user.eventsAsOrganizer && user.eventsAsOrganizer.length > 0) interfaces.push('event-organizer');
             }
-    
+
             setAvailableInterfaces(interfaces);
             setCurrentInterface(interfaces[0]);
         } else if (!user) {
@@ -148,8 +177,10 @@ export const UserProvider = ({ children }) => {
 
     return (
         <UserContext.Provider value={{
-            user, loading, error, setError, updateProfile, updatePassword, avatarSrc, getOwnTransactions, 
-            currentInterface, setCurrentInterface, availableInterfaces, getUsers, allUsersCount, getAllUsersCount, getUser, singleUser,
+            user, loading, error, setError, updateProfile, updatePassword, avatarSrc, 
+            getOwnTransactions,currentInterface, setCurrentInterface, availableInterfaces, 
+            getUsers, allUsersCount, getAllUsersCount, getUser, singleUser, 
+            updateUserStatus, setStatusChange
         }}>
             {children}
         </UserContext.Provider>

@@ -171,3 +171,21 @@ export const getUserAPI = async (userId, token) => {
     return await res.json();
 
 };
+
+export const updateUserStatusAPI = async (userId, payload, token) => {
+    const res = await fetch(`${BACKEND_URL}/users/${userId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Update User Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+
+};

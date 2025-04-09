@@ -65,7 +65,7 @@ const EditProfileDialog = ({ open, onClose, avatarSrc }) => {
         e.preventDefault();
         setFieldErrors({});
 
-        // Create a new object where empty strings are converted to undefined
+        // create a new object where empty strings are converted to undefined
         const cleanedData = Object.fromEntries(
             Object.entries(profileData).map(([key, value]) => [
                 key,
@@ -73,7 +73,7 @@ const EditProfileDialog = ({ open, onClose, avatarSrc }) => {
             ])
         );
 
-        // Simple client-side validation (example)
+        // implement client-side validation
         const errors = {};
         if (!cleanedData.email || !cleanedData.email.endsWith('utoronto.ca')) {
             errors.email = "Must be a utoronto.ca email.";

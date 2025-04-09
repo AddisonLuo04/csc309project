@@ -15,8 +15,7 @@ function UserPage() {
 
     return <>
         {singleUser ? <>
-            <UserCard 
-            user={singleUser}/>
+            <UserCard/>
         </>
         : <NotFound />}
     </>

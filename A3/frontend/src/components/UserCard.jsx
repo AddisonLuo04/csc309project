@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Card,
     CardContent,
@@ -7,30 +7,38 @@ import {
     Typography,
 } from "@mui/material";
 import { useUser } from "../contexts/UserContext";
+import EditUserDialog from "./EditUserDialog";
 
-function UserCard( {user}) {
-    const { currentInterface } = useUser();
+function UserCard() {
+    const { currentInterface, singleUser } = useUser();
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
 
     return <>
-        <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+        <Card variant="outlined" sx={{ position: "relative", width: "250px", height: "250px" }}>
             <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
-                    {user.name}
+                    {singleUser.name}
                 </Typography>
                 <Typography variant="body2">
-                    {user.utorid}
+                    UTORid: {singleUser.utorid}
                 </Typography>
                 <Typography variant="body2">
-                    {user.id}
+                    {singleUser.id}
                 </Typography>
             </CardContent>
             {currentInterface === "regular" || currentInterface === "cashier" ? <></> :
-                <CardActions sx={{position: "absolute", bottom: "0"}}>
-                    <Button size="small" variant="outlined">Edit</Button>
+                <CardActions sx={{ position: "absolute", bottom: "0" }}>
+                    <Button size="small" variant="outlined" onClick={() => setEditDialogOpen(true)}>Edit</Button>
                     <Button size="small" variant="outlined">Delete</Button>
                 </CardActions>
             }
         </Card>
+        {editDialogOpen && (
+            <EditUserDialog
+                open={editDialogOpen}
+                onClose={() => setEditDialogOpen(false)}
+            />
+        )}
     </>;
 };
 
