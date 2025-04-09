@@ -16,6 +16,7 @@ export const PromotionProvider = ({ children }) => {
     const [singlePromotion, setSinglePromotion] = useState(null);
 
     const addPromotion = async (formData) => {
+        if (!token) return;
         setLoading(true);
         setCreateMessage(null);
         const data = {
@@ -46,6 +47,7 @@ export const PromotionProvider = ({ children }) => {
     };
 
     const deletePromotion = async (promotionId) => {
+        if (!token) return;
         setLoading(true);
         setError(null);
         try {
@@ -60,6 +62,7 @@ export const PromotionProvider = ({ children }) => {
     };
 
     const updatePromotion = async (promotionId, formData) => {
+        if (!token) return;
         setLoading(true);
         setUpdateMessage(null);
         const data = {
@@ -90,6 +93,7 @@ export const PromotionProvider = ({ children }) => {
     };
 
     const getPromotions = async(params) => {
+        if (!token) return;
         setLoading(true);
         setError(null);
         try {
@@ -103,6 +107,7 @@ export const PromotionProvider = ({ children }) => {
     };
 
     const getAllPromotionsCount = async () => {
+        if (!token) return;
         setLoading(true);
         try {
             const response = await getPromotionsAPI('', token);
@@ -115,6 +120,7 @@ export const PromotionProvider = ({ children }) => {
     };
 
     const getPromotion = async (promotionId) => {
+        if (!token) return;
         setLoading(true);
         const parsedId = parseInt(promotionId);
         try {

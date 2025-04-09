@@ -55,8 +55,11 @@ function PromotionCard( {promotion}) {
                 <Typography variant="body2">
                     Type: {promotion.type}
                 </Typography>
+                {promotion.startTime && <Typography variant="body2">
+                    From: {promotion.startTime}
+                </Typography>}
                 <Typography variant="body2">
-                    From: {promotion.startTime} <br></br>To: {promotion.endTime}
+                    Until: {promotion.endTime}
                 </Typography>
                 <Typography variant="body2">
                     You must spend at least ${promotion.minSpending} to trigger the promotion. 
@@ -93,6 +96,7 @@ function PromotionCard( {promotion}) {
                 </CardActions>
             }
         </Card>
+        <Button variant="outlined" onClick={() => navigate("/promotion")}>Back</Button>
     </>;
 };
 

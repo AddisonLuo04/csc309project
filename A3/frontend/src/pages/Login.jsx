@@ -42,7 +42,7 @@ function Login() {
                 required
             />
             <div className="btn-container">
-                <button type="submit">Login</button>
+                <button style={{fontSize: "20px"}} type="submit">Login</button>
             </div>
             <div className='btn-container'>
                 <Link to="/resetPassword" onClick={clearError}>

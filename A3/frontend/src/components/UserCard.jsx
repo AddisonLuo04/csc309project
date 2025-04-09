@@ -8,10 +8,13 @@ import {
 } from "@mui/material";
 import { useUser } from "../contexts/UserContext";
 import EditUserDialog from "./EditUserDialog";
+import { useNavigate } from "react-router-dom";
 
 function UserCard() {
     const { currentInterface, singleUser } = useUser();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+    const navigate = useNavigate();
 
     const rolesOrder = {
         regular: 1,
@@ -52,6 +55,7 @@ function UserCard() {
                 onClose={() => setEditDialogOpen(false)}
             />
         )}
+        <Button variant="outlined" onClick={() => navigate("/users")}>Back</Button>
     </>;
 };
 

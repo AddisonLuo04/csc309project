@@ -18,6 +18,7 @@ export const TransactionProvider = ({ children }) => {
     const [singleTransaction, setSingleTransaction] = useState(null);
 
     const addTransfer = async (formData) => {
+        if (!token) return;
         setLoading(true);
         setTransferMessage(null);
         const userId = parseInt(formData.userId);
@@ -41,6 +42,7 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const addRedemption = async (formData) => {
+        if (!token) return;
         setLoading(true);
         setRedemptionMessage(null);
         const amount = parseInt(formData.amount);
@@ -63,6 +65,7 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const getAllTransactionsCount = async () => {
+        if (!token) return;
         if (user && user.role !== "regular" && user.role !== "cashier") {
             setLoading(true);
             try {
@@ -77,6 +80,7 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const getAllTransactions = async (params) => {
+        if (!token) return;
         if (user && user.role !== "regular" && user.role !== "cashier") {
             setLoading(true);
             setAllTransactionsError(null);
@@ -92,6 +96,7 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const getTransaction = async (transactionId) => {
+        if (!token) return;
         setLoading(true);
         const parsedId = parseInt(transactionId);
         try {
@@ -106,6 +111,7 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const addAdjustment = async (formData) => {
+        if (!token) return;
         setLoading(true); 
         setAdjustmentMessage(null);
         const parsedAmount = parseInt(formData.amount);
@@ -139,6 +145,7 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const markSuspicious = async (transactionId, suspicious) => {
+        if (!token) return;
         setLoading(false);
         const parsedId = parseInt(transactionId);
         const payload = {suspicious: suspicious};

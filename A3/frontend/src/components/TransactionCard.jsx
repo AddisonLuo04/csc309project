@@ -21,6 +21,8 @@ function TransactionCard( {transaction}) {
     const { currentInterface, singleUser, getUser } = useUser();
     const { getTransaction, setAdjustmentMessage, markSuspicious } = useTransaction();
 
+    const navigate = useNavigate();
+
     const [qrDialogOpen, setQrDialogOpen] = useState(false);
     const handleOpenQrDialog = () => setQrDialogOpen(true);
     const handleCloseQrDialog = () => setQrDialogOpen(false);
@@ -155,6 +157,7 @@ function TransactionCard( {transaction}) {
             }
             </CardActions>
         </Card>
+        <Button variant="outlined" onClick={() => navigate("/transaction")}>Back</Button>
     </>;
 };
 

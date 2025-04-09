@@ -73,12 +73,17 @@ function EventCard({ event }) {
                 <Typography variant="body2">Description: {event.description}</Typography>
                 <Typography variant="body2">Location: {event.location}</Typography>
                 <Typography variant="body2">From: {event.startTime}</Typography>
-                <Typography variant="body2">To: {event.endTime}</Typography>
+                <Typography variant="body2">Until: {event.endTime}</Typography>
                 <Typography variant="body2">Capacity: {event.capacity ? event.capacity : 'None'}</Typography>
-                <Typography variant="body2">Guests: {event.guests.length}</Typography>
-                <Typography variant="body2">Organizers: {event.organizers.length}</Typography>
-                <Typography variant="body2">Points Remaining: {event.pointsRemain}</Typography>
-                <Typography variant="body2">Points Awarded: {event.pointsAwarded}</Typography>
+                <Typography variant="body2">Organizers: {event?.organizers?.length}</Typography>
+                {currentInterface === "regular" || currentInterface === "cashier" ? <>
+                    <Typography variant="body2">Guests: {event.numGuests}</Typography>
+                </> : <>
+                    <Typography variant="body2">Guests: {event.guests.length}</Typography>
+                    <Typography variant="body2">Points Remaining: {event.pointsRemain}</Typography> 
+                    <Typography variant="body2">Points Awarded: {event.pointsAwarded}</Typography>
+                </>
+                }
             </CardContent>
             <CardActions sx={{ flexWrap: "wrap", rowGap: 1, justifyContent: "center" }}>
                 {isGuest && (
@@ -175,6 +180,7 @@ function EventCard({ event }) {
                 onClose={() => setRewardOpen(false)}
             />
         )}
+        <Button variant="outlined" onClick={() => navigate("/event")}>Back</Button>
     </>;
 };
 

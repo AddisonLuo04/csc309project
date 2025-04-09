@@ -19,6 +19,7 @@ export const EventProvider = ({ children }) => {
     const [statusChange, setStatusChange] = useState(false);
 
     const addEvent = async (formData) => {
+        if (!token) return;
         setLoading(true);
         setCreateMessage(null);
         const data = {
@@ -45,6 +46,7 @@ export const EventProvider = ({ children }) => {
     };
 
     const getAllEventsCount = async () => {
+        if (!token) return;
         setLoading(true);
         try {
             const response = await getEventsAPI('', token);
@@ -57,6 +59,7 @@ export const EventProvider = ({ children }) => {
     };
 
     const getEvents = async (params) => {
+        if (!token) return;
         setLoading(true);
         setError(null);
         try {
@@ -70,6 +73,7 @@ export const EventProvider = ({ children }) => {
     };
 
     const getEvent = async (eventId) => {
+        if (!token) return;
         setLoading(true);
         const parsedId = parseInt(eventId);
         try {
