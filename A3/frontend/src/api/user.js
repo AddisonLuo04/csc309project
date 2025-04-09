@@ -58,7 +58,7 @@ export const updatePasswordAPI = async (oldPassword, newPassword, token) => {
         const errorMsg = `Update password failed: ${errorData.error || 'Unknown error'}`;
         throw new Error(errorMsg);
     }
-    return await res.json();
+    return await res;
 };
 
 export const avatarSrc = (avatarUrl, bustCache = false) => {
