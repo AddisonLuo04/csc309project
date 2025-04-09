@@ -55,7 +55,9 @@ function Event() {
     ];
 
     return <>
-        {currentInterface === "regular" || currentInterface === "cashier" ? <>
+        {currentInterface === "regular" ||
+            currentInterface === "cashier" ||
+            currentInterface === 'event organizer' ? <>
             <PaginatedTable
                 fetchData={getEvents}
                 columns={columns}
