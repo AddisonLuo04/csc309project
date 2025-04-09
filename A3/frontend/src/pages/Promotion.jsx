@@ -10,14 +10,14 @@ import { useNavigate } from "react-router-dom";
 function Promotion () {
     const { currentInterface } = useUser();
     const { setCreateMessage, getPromotions, error } = usePromotion();
-    const navigate = useNavigate();
+    const [initialParams, setInitialParams] = useState({ page: 1, limit: 10 });
 
     const [openCreate, setOpenCreate] = useState(false);
     const handleOpenCreate = () => setOpenCreate(true);
     const handleCloseCreate = () => { 
         setCreateMessage(null); 
         setOpenCreate(false); 
-        getPromotions();
+        setInitialParams(prev => ({...prev, page: 1}));
     };
 
     const columns = [
@@ -55,7 +55,7 @@ function Promotion () {
                 fetchData={getPromotions}
                 columns={columns}
                 filtersConfig={manFiltersConfig}
-                initialParams={{ page: 1, limit: 10 }}
+                initialParams={initialParams}
             />
             
             {error && <Typography variant="body2" sx={{color: "red"}}>{error}</Typography>}

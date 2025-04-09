@@ -119,7 +119,6 @@ export const PromotionProvider = ({ children }) => {
         const parsedId = parseInt(promotionId);
         try {
             const promotion = await getPromotionAPI(parsedId, token);
-            console.log(promotion);
             setSinglePromotion(promotion);
         } catch(err) {
             setSinglePromotion(null);

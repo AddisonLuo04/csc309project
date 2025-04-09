@@ -45,7 +45,7 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
             }
         };
         fetchTableData();
-    }, [query]);
+    }, [query, initialParams]);
 
 
     useEffect(() => {
@@ -79,7 +79,6 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
 
     // handle row click
     const handleRowClick = (row) => {
-        console.log(`${path}/${row.id}`);
         navigate(`${path}/${row.id}`);
     };
 
