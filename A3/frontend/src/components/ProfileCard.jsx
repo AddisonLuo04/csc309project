@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Card,
     CardContent,
@@ -9,8 +9,18 @@ import {
     Grid,
     Box
 } from "@mui/material";
+import DisplayQrCodeDialog from "./DisplayQRCodeDialog";
 
 function ProfileCard({ user, onEdit, avatarSrc, onUpdate }) {
+    const [qrDialogOpen, setQrDialogOpen] = useState(false);
+
+    const handleOpenQrDialog = () => {
+        setQrDialogOpen(true);
+    };
+
+    const handleCloseQrDialog = () => {
+        setQrDialogOpen(false);
+    };
     return (
         <Card variant="outlined">
             <CardContent>
@@ -66,6 +76,15 @@ function ProfileCard({ user, onEdit, avatarSrc, onUpdate }) {
                 <Button variant="contained" onClick={onUpdate}>
                     Change Password
                 </Button>
+                <Button variant="contained" onClick={handleOpenQrDialog}>
+                    Display QR Code
+                </Button>
+
+                <DisplayQrCodeDialog
+                    open={qrDialogOpen}
+                    onClose={handleCloseQrDialog}
+                    qrValue={String(user?.id)}
+                />
             </CardActions>
         </Card>
     );
