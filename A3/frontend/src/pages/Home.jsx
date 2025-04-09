@@ -103,6 +103,27 @@ function Home() {
                     <Button variant="outlined" onClick={() => navigate("/promotion")}>Promotions Page</Button>
                 </div>
             </>
+            : currentInterface === "event organizer" ? <>
+                {/* Event organizer */}
+                <h2>Dashboard</h2>
+                <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
+                    <div style={{display: "flex", gap: "8px"}}>
+                    <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h6" component="div">
+                                Events
+                            </Typography>
+                            <Typography variant="body2">
+                                There is a total of {allEventsCount} {allEventsCount === 1 ? 'event.' : 'events.' }
+                            </Typography>
+                        </CardContent>
+                        <CardActions sx={{position: "absolute", bottom: "0"}}>
+                            <Button size="small" variant="outlined" onClick={() => navigate("/event")}>Manage Events</Button>
+                        </CardActions>
+                    </Card>
+                    </div>
+                </div>
+            </>
             : <>
                 {/* Manager/Superuser*/}
                 <h2>Dashboard</h2>

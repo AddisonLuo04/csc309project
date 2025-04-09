@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
-import { createEventAPI, getEventAPI, getEventsAPI } from '../api/event';
+import { addSelfToEventAPI, createEventAPI, deleteEventAPI, getEventAPI, getEventsAPI, removeSelfFromEventAPI, updateEventAPI } from '../api/event';
 import { useUser } from './UserContext';
 
 export const EventContext = createContext(null);
@@ -13,6 +13,10 @@ export const EventProvider = ({ children }) => {
     const [allEventsCount, setAllEventsCount] = useState(0);
     const [error, setError] = useState(null);
     const [singleEvent, setSingleEvent] = useState(null);
+    const [updateMessage, setUpdateMessage] = useState(null);
+
+    // status state for updating the single event:
+    const [statusChange, setStatusChange] = useState(false);
 
     const addEvent = async (formData) => {
         setLoading(true);
@@ -80,11 +84,93 @@ export const EventProvider = ({ children }) => {
         }
     };
 
+    const updateEvent = async (eventId, params) => {
+        if (!token) return;
+        setUpdateMessage(null);
+        setLoading(true);
+        setError(null);
+        const parsedId = parseInt(eventId);
+        try {
+            await updateEventAPI(parsedId, params, token);
+            setUpdateMessage("Success!")
+            return;
+        } catch (err) {
+            setUpdateMessage(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // on an edit/change of an event, fetch+update the event
+    useEffect(() => {
+        async function fetchData() {
+            if (singleEvent) {
+                const updated = await getEventAPI(singleEvent.id, token);
+                setSingleEvent(updated);
+            }
+        }
+        fetchData();
+    }, [statusChange]);
+
+    const addSelfToEvent = async (eventId) => {
+        if (!token) return;
+        setError(null);
+        setLoading(true);
+        setError(null);
+        const parsedId = parseInt(eventId);
+        try {
+            await addSelfToEventAPI(parsedId, token);
+            return;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const removeSelfFromEvent = async (eventId) => {
+        if (!token) return;
+        setError(null);
+        setLoading(true);
+        setError(null);
+        const parsedId = parseInt(eventId);
+        try {
+            await removeSelfFromEventAPI(parsedId, token);
+            return;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const deleteEvent = async (eventId) => {
+        if (!token) return;
+        setError(null);
+        setLoading(true);
+        setError(null);
+        const parsedId = parseInt(eventId);
+        try {
+            await deleteEventAPI(parsedId, token);
+            return;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     return (
         <EventContext.Provider value={{
             user, loading, createMessage, allEventsCount, error, singleEvent, 
-            setCreateMessage, addEvent, getAllEventsCount, setError, getEvents, getEvent, 
+            setCreateMessage, addEvent, getAllEventsCount, setError, getEvents, 
+            getEvent, updateEvent, updateMessage, setUpdateMessage, statusChange,
+            setStatusChange, addSelfToEvent, removeSelfFromEvent, deleteEvent
         }}>
             {children}
         </EventContext.Provider>

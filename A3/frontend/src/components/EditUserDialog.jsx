@@ -31,8 +31,6 @@ const EditUserDialog = ({ open, onClose }) => {
     // state for field-specific errors
     const [fieldErrors, setFieldErrors] = useState({});
 
-    const [updated, setUpdated] = useState(false);
-
     // refresh local state when the user prop changes 
     // e.g. dialog is opened for a new user:
     useEffect(() => {
