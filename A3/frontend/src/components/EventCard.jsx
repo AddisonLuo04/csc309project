@@ -18,6 +18,7 @@ import DeleteEventDialog from "./DeleteEventDialog";
 import UpdateEventDialog from "./UpdateEventDialog";
 import ManageGuestDialog from "./ManageGuestDialog";
 import ManageOrganizerDialog from "./ManageOrganizerDialog";
+import RewardDialog from "./RewardDialog";
 
 function EventCard({ event }) {
     const { currentInterface, user } = useUser();
@@ -33,6 +34,9 @@ function EventCard({ event }) {
     // manage guests/organizers
     const [manageGuestOpen, setManageGuestOpen] = useState(false);
     const [manageOrganizerOpen, setManageOrganizerOpen] = useState(false);
+
+    // reward points from this event to a guest
+    const [rewardOpen, setRewardOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -108,6 +112,12 @@ function EventCard({ event }) {
                     </Button>
                 </>
                 )}
+                {(canEdit || isEventOrganizer) && (<>
+                    <Button size="small" variant="outlined" onClick={() => setRewardOpen(true)}>
+                        Reward Points
+                    </Button>
+                </>
+                )}
             </CardActions>
         </Card>
 
@@ -157,6 +167,12 @@ function EventCard({ event }) {
             <ManageOrganizerDialog
                 open={manageOrganizerOpen}
                 onClose={() => setManageOrganizerOpen(false)}
+            />
+        )}
+        {rewardOpen && (
+            <RewardDialog
+                open={rewardOpen}
+                onClose={() => setRewardOpen(false)}
             />
         )}
     </>;
