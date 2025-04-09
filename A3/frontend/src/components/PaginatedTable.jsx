@@ -16,6 +16,11 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
     // convert searchParams into a plain object for the labels of the table
     const params = Object.fromEntries(searchParams.entries());
 
+    // add an effect so when initialParams changes, the search params update
+    useEffect(() => {
+        setSearchParams(initialParams);
+    }, [initialParams]);
+
     // useMemo to update our a local state of the params
     // use this query to check if we need to call the API
     const query = useMemo(() => {
@@ -128,7 +133,7 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
                         </TableHead>
                         <TableBody>
                             {data.map((row) => (
-                                <TableRow key={row.id} hover onClick={() => handleRowClick(row)} sx={{cursor: "pointer"}}>
+                                <TableRow key={row.id} hover onClick={() => handleRowClick(row)} sx={{ cursor: "pointer" }}>
                                     {columns.map((col) => (
                                         <TableCell key={col.field}>
                                             {/* use custom renderCell function if defined:
