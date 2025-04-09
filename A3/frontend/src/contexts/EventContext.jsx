@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
-import { addSelfToEventAPI, createEventAPI, deleteEventAPI, getEventAPI, getEventsAPI, removeSelfFromEventAPI, updateEventAPI } from '../api/event';
+import { addGuestAPI, addOrganizerAPI, addSelfToEventAPI, createEventAPI, deleteEventAPI, deleteGuestAPI, deleteOrganizerAPI, getEventAPI, getEventsAPI, removeSelfFromEventAPI, updateEventAPI } from '../api/event';
 import { useUser } from './UserContext';
 
 export const EventContext = createContext(null);
@@ -36,7 +36,7 @@ export const EventProvider = ({ children }) => {
         try {
             const event = await createEventAPI(data, token);
             setCreateMessage("Success!");
-        } catch(err) {
+        } catch (err) {
             setCreateMessage(err.message);
             throw err;
         } finally {
@@ -49,7 +49,7 @@ export const EventProvider = ({ children }) => {
         try {
             const response = await getEventsAPI('', token);
             setAllEventsCount(response.count);
-        } catch(err) {
+        } catch (err) {
             throw err;
         } finally {
             setLoading(false);
@@ -61,7 +61,7 @@ export const EventProvider = ({ children }) => {
         setError(null);
         try {
             return await getEventsAPI(params, token);
-        } catch(err) {
+        } catch (err) {
             setError(err.message);
             throw err;
         } finally {
@@ -75,7 +75,7 @@ export const EventProvider = ({ children }) => {
         try {
             const promotion = await getEventAPI(parsedId, token);
             setSingleEvent(promotion);
-        } catch(err) {
+        } catch (err) {
             setSingleEvent(null);
             setError(err.message);
             throw err;
@@ -151,7 +151,6 @@ export const EventProvider = ({ children }) => {
         if (!token) return;
         setError(null);
         setLoading(true);
-        setError(null);
         const parsedId = parseInt(eventId);
         try {
             await deleteEventAPI(parsedId, token);
@@ -164,13 +163,80 @@ export const EventProvider = ({ children }) => {
         }
     }
 
+    const addGuest = async (utorid, eventId) => {
+        if (!token) return;
+        setError(null);
+        setLoading(true);
+        const parsedId = parseInt(eventId);
+        try {
+            await addGuestAPI(utorid, parsedId, token);
+            return;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const deleteGuest = async (userId, eventId) => {
+        if (!token) return;
+        setError(null);
+        setLoading(true);
+        const parsedEventId = parseInt(eventId);
+        const parsedUserId = parseInt(userId)
+        try {
+            await deleteGuestAPI(parsedUserId, parsedEventId, token);
+            return;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const addOrganizer = async (utorid, eventId) => {
+        if (!token) return;
+        setError(null);
+        setLoading(true);
+        const parsedId = parseInt(eventId);
+        try {
+            await addOrganizerAPI(utorid, parsedId, token);
+            return;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const deleteOrganizer = async (userId, eventId) => {
+        if (!token) return;
+        setError(null);
+        setLoading(true);
+        const parsedEventId = parseInt(eventId);
+        const parsedUserId = parseInt(userId)
+        try {
+            await deleteOrganizerAPI(parsedUserId, parsedEventId, token);
+            return;
+        } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     return (
         <EventContext.Provider value={{
-            user, loading, createMessage, allEventsCount, error, singleEvent, 
-            setCreateMessage, addEvent, getAllEventsCount, setError, getEvents, 
+            user, loading, createMessage, allEventsCount, error, singleEvent,
+            setCreateMessage, addEvent, getAllEventsCount, setError, getEvents,
             getEvent, updateEvent, updateMessage, setUpdateMessage, statusChange,
-            setStatusChange, addSelfToEvent, removeSelfFromEvent, deleteEvent
+            setStatusChange, addSelfToEvent, removeSelfFromEvent, deleteEvent,
+            addGuest, deleteGuest, addOrganizer, deleteOrganizer
         }}>
             {children}
         </EventContext.Provider>

@@ -6,7 +6,7 @@ export const createEventAPI = async (payload, token) => {
     const body = payload;
     body.startTime = start.toISOString();
     body.endTime = end.toISOString();
-    const res = await fetch (`${BACKEND_URL}/events`, {
+    const res = await fetch(`${BACKEND_URL}/events`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const createEventAPI = async (payload, token) => {
 export const getEventsAPI = async (params, token) => {
     const query = new URLSearchParams(params).toString();
     const res = await fetch(`${BACKEND_URL}/events?${query}`, {
-        method: 'GET', 
+        method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -40,7 +40,7 @@ export const getEventsAPI = async (params, token) => {
 
 export const getEventAPI = async (eventId, token) => {
     const res = await fetch(`${BACKEND_URL}/events/${eventId}`, {
-        method: 'GET', 
+        method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
         }
@@ -119,6 +119,72 @@ export const deleteEventAPI = async (eventId, token) => {
     if (!res.ok) {
         const errorData = await res.json();
         const errorMsg = `Delete Event Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res;
+};
+
+export const addGuestAPI = async (utorid, eventId, token) => {
+    const res = await fetch(`${BACKEND_URL}/events/${eventId}/guests`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ utorid })
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Add Guest Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};
+
+export const deleteGuestAPI = async (userId, eventId, token) => {
+    const res = await fetch(`${BACKEND_URL}/events/${eventId}/guests/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Delete Guest Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res;
+};
+
+export const addOrganizerAPI = async (utorid, eventId, token) => {
+    const res = await fetch(`${BACKEND_URL}/events/${eventId}/organizers`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ utorid })
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Add Organizer Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};
+
+export const deleteOrganizerAPI = async (userId, eventId, token) => {
+    const res = await fetch(`${BACKEND_URL}/events/${eventId}/organizers/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Delete Organizer Failed: ${errorData.error || 'Unknown error'}`;
         throw new Error(errorMsg);
     }
     return await res;

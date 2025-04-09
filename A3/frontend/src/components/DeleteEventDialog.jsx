@@ -21,7 +21,7 @@ const DeleteEventDialog = ({ open, onClose }) => {
         try {
             await deleteEvent(singleEvent.id);
             onClose();
-            navigate("/events")
+            navigate("/event");
         } catch (err) {
             console.error(err);
             onClose();

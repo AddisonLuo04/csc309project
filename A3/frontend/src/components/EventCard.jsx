@@ -16,6 +16,8 @@ import { useEvent } from "../contexts/EventContext";
 import RsvpEventDialog from "./RsvpEventDialog";
 import DeleteEventDialog from "./DeleteEventDialog";
 import UpdateEventDialog from "./UpdateEventDialog";
+import ManageGuestDialog from "./ManageGuestDialog";
+import ManageOrganizerDialog from "./ManageOrganizerDialog";
 
 function EventCard({ event }) {
     const { currentInterface, user } = useUser();
@@ -27,6 +29,10 @@ function EventCard({ event }) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     // update for event organizers
     const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
+
+    // manage guests/organizers
+    const [manageGuestOpen, setManageGuestOpen] = useState(false);
+    const [manageOrganizerOpen, setManageOrganizerOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -48,13 +54,22 @@ function EventCard({ event }) {
     const isGuest = user?.eventsAsGuest?.some((e) => e.id === event.id);
 
     return <>
-        <Card variant="outlined" sx={{ position: "relative", width: "300px", height: "350px" }}>
-            <CardContent sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <Card variant="outlined" sx={{
+            width: 400,
+            height: 350,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            p: 1
+        }}>
+            <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
                     Event {event.id}: {event.name}
                 </Typography>
+                <Typography variant="body2">{event.description}</Typography>
+                <Typography variant="body2">Location: {event.location}</Typography>
             </CardContent>
-            <CardActions sx={{ position: "absolute", bottom: "0" }}>
+            <CardActions sx={{ flexWrap: "wrap", rowGap: 1, justifyContent: "center" }}>
                 {isGuest && (
                     <Button size="small" variant="outlined" onClick={() => setUnRsvpDialogOpen(true)}>
                         Remove RSVP
@@ -71,6 +86,12 @@ function EventCard({ event }) {
                     </Button>
                     <Button size="small" variant="outlined" onClick={() => setDeleteDialogOpen(true)}>
                         Delete
+                    </Button>
+                    <Button size="small" variant="outlined" onClick={() => setManageOrganizerOpen(true)}>
+                        Manage Organizers
+                    </Button>
+                    <Button size="small" variant="outlined" onClick={() => setManageGuestOpen(true)}>
+                        Manage Guests
                     </Button>
                 </>
                 )}
@@ -117,6 +138,18 @@ function EventCard({ event }) {
                     setUpdateMessage(null);
                     setUpdateDialogOpen(false);
                 }}
+            />
+        )}
+        {manageGuestOpen && (
+            <ManageGuestDialog
+                open={manageGuestOpen}
+                onClose={() => setManageGuestOpen(false)}
+            />
+        )}
+        {manageOrganizerOpen && (
+            <ManageOrganizerDialog
+                open={manageOrganizerOpen}
+                onClose={() => setManageOrganizerOpen(false)}
             />
         )}
     </>;
