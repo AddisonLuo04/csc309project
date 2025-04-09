@@ -17,7 +17,7 @@ function Promotion () {
     const handleCloseCreate = () => { 
         setCreateMessage(null); 
         setOpenCreate(false); 
-        navigate("/promotion");
+        getPromotions();
     };
 
     const columns = [

@@ -47,19 +47,19 @@ export const PromotionProvider = ({ children }) => {
 
     const deletePromotion = async (promotionId) => {
         setLoading(true);
-        setUpdateMessage(null);
+        setError(null);
         try {
             const promotion = await deletePromotionAPI(promotionId, token);
             // TODO: handle post delete?
         } catch(err) {
-            setUpdateMessage(err.message);
+            setError(err.message);
             throw err;
         } finally {
             setLoading(false);
         }
     };
 
-    const updatePromotion = async (formData) => {
+    const updatePromotion = async (promotionId, formData) => {
         setLoading(true);
         setUpdateMessage(null);
         const data = {
@@ -79,9 +79,8 @@ export const PromotionProvider = ({ children }) => {
             data.points = parseInt(formData.points);
         }
         try {
-            const promotion = await updatePromotionAPI(data, token);
+            const promotion = await updatePromotionAPI(promotionId, data, token);
             setUpdateMessage("Success!");
-            // TODO: handle after update?
         } catch(err) {
             setUpdateMessage(err.message);
             throw err;
@@ -134,7 +133,7 @@ export const PromotionProvider = ({ children }) => {
 
     return (
         <PromotionContext.Provider value={{
-            user, loading, createMessage, updateMessage, allPromotionsCount, getPromotions, error, getPromotion, singlePromotion,
+            user, loading, createMessage, updateMessage, allPromotionsCount, getPromotions, error, setError, getPromotion, singlePromotion,
             setUpdateMessage, setCreateMessage, addPromotion, deletePromotion, updatePromotion, getAllPromotionsCount
         }}>
             {children}

@@ -34,7 +34,7 @@ export const deletePromotionAPI = async (promotionId, token) => {
         const errorMsg = `Delete Promotion Failed: ${errorData.error || 'Unknown error'}`;
         throw new Error(errorMsg);
     }
-    return await res.json();
+    return await res;
 };
 
 export const updatePromotionAPI = async (promotionId, payload, token) => {

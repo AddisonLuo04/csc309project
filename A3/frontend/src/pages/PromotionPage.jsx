@@ -10,7 +10,6 @@ function PromotionPage() {
     const { singlePromotion, getPromotion } = usePromotion();
 
     useEffect(() => {
-        console.log(promotionId);
         getPromotion(promotionId);
     }, []);
 

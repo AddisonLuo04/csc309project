@@ -71,7 +71,7 @@ async function applyPromotions(spent, promotionIds, utorid) {
         }
         // check if we spent enough to use this promo
         if (promotion.minSpending <= spent) {
-            base += Math.round(spent / promotion.rate);
+            base += promotion.rate !== 0 ? Math.round(spent / promotion.rate) : 0;
             bonus += promotion.points;
 
             // if promo is a one time used, 
