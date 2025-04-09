@@ -189,3 +189,20 @@ export const deleteOrganizerAPI = async (userId, eventId, token) => {
     }
     return await res;
 };
+
+export const createEventTransactionAPI = async (eventId, payload, token) => {
+    const res = await fetch(`${BACKEND_URL}/events/${eventId}/transactions`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Create Reward Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};

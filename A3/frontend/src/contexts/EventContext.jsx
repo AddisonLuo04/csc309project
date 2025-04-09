@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
-import { addGuestAPI, addOrganizerAPI, addSelfToEventAPI, createEventAPI, deleteEventAPI, deleteGuestAPI, deleteOrganizerAPI, getEventAPI, getEventsAPI, removeSelfFromEventAPI, updateEventAPI } from '../api/event';
+import { addGuestAPI, addOrganizerAPI, addSelfToEventAPI, createEventAPI, createEventTransactionAPI, deleteEventAPI, deleteGuestAPI, deleteOrganizerAPI, getEventAPI, getEventsAPI, removeSelfFromEventAPI, updateEventAPI } from '../api/event';
 import { useUser } from './UserContext';
 
 export const EventContext = createContext(null);
@@ -229,6 +229,24 @@ export const EventProvider = ({ children }) => {
         }
     }
 
+    const createEventTransaction = async (eventId, params) => {
+        if (!token) return;
+        setUpdateMessage(null);
+        setLoading(true);
+        setError(null);
+        const parsedId = parseInt(eventId);
+        try {
+            await createEventTransactionAPI(parsedId, params, token);
+            setUpdateMessage("Success!")
+            return;
+        } catch (err) {
+            setUpdateMessage(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }
+
 
     return (
         <EventContext.Provider value={{
@@ -236,7 +254,7 @@ export const EventProvider = ({ children }) => {
             setCreateMessage, addEvent, getAllEventsCount, setError, getEvents,
             getEvent, updateEvent, updateMessage, setUpdateMessage, statusChange,
             setStatusChange, addSelfToEvent, removeSelfFromEvent, deleteEvent,
-            addGuest, deleteGuest, addOrganizer, deleteOrganizer
+            addGuest, deleteGuest, addOrganizer, deleteOrganizer, createEventTransaction
         }}>
             {children}
         </EventContext.Provider>
