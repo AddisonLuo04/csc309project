@@ -34,12 +34,12 @@ const CreatePurchaseModal = () => {
     };
 
     return (
-        <Box sx = {{
+        <Box className="purchase-box" sx = {{
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 450,
+        width: 500,
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,

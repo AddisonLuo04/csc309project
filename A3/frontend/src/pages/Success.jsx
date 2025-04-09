@@ -9,7 +9,7 @@ function Success() {
 
     useEffect(() => {
         if (countdown <= 0) {
-            navigate("/login");
+            navigate("/");
         }
         else {
             setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -19,9 +19,9 @@ function Success() {
 
     return <>
         <h3>Success!</h3>
-        <p>You will be redirected to the login page in {countdown} seconds.</p>
+        <p>You will be redirected to the home page in {countdown} seconds.</p>
         <div className="row">
-            <Link to="/login">Login</Link>
+            <Link to="/">Home</Link>
         </div>
     </>;
 }

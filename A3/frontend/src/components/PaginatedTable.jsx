@@ -110,8 +110,7 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
                 onChange={(next) => setSearchParams(cleanParams(next))}
             />
             <Paper>
-                {/* TODO, need to update how we set the width here */}
-                <TableContainer component={Paper} sx={{ width: 1000, maxHeight: 400 }}>
+                <TableContainer className="table-box" component={Paper} sx={{ width: '100w', maxHeight: 400 }}>
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>

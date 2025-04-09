@@ -39,7 +39,7 @@ main {
     flex-direction: column;
     align-items: center;
     padding: 40px;
-    gap: 40px;
+    gap: 20px;
 }
 
 main h2 {
@@ -62,13 +62,80 @@ footer {
     bottom: 0;
 }
 
-@media (max-width: 400px) {
+.btn-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.card-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-pair {
+    display: flex;
+    gap: 8px;
+}
+
+.dashboard-card {
+    position: relative;
+    width: 250px;
+    height: 250px;
+}
+
+@media (max-width: 425px) {
+    header {
+        font-size: 12px
+    }
+    header > * {
+        padding: 10px 5px;
+        margin: 0px;
+    }
+
+    header > :first-child {
+        margin-right: auto;
+        margin-left: 10px;
+    }
+
     main {
         padding: 20px 10px;
-        gap: 20px;
+        gap: 10px;
     }
 
     main h2 {
-        font-size: 36px;
+        font-size: 24px;
+    }
+
+    footer {
+        font-size: 12px;
+    }
+
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .dashboard-card {
+        width: 150px;
+        height: 150px;
+    }
+
+    .dashboard-title {
+        font-size: 18px !important;
+    }
+
+    .dashboard-btn {
+        font-size: 8px !important;
+    }
+
+    .purchase-box {
+        width: 300px !important;
+    }
+    
+    .table-box {
+        width: 300px !important;
     }
 }
