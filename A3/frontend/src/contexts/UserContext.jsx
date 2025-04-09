@@ -144,7 +144,7 @@ export const UserProvider = ({ children }) => {
             }
         }
         fetchData();
-    }, [statusChange])
+    }, [statusChange]);
 
     // on mount/user change, update the available and current interfaces
     useEffect(() => {
