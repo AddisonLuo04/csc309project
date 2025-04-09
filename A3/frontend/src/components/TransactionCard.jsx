@@ -128,7 +128,7 @@ function TransactionCard( {transaction}) {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 450,
+                    width: 300,
                     bgcolor: 'background.paper',
                     boxShadow: 24,
                     p: 4,

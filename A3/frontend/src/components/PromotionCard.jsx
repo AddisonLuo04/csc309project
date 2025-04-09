@@ -71,7 +71,7 @@ function PromotionCard( {promotion}) {
                     </Modal>
                     <Button size="small" variant="outlined" onClick={handleOpenDelete}>Delete</Button>
                         <Modal open={openDelete} onClose={handleCloseDelete}>
-                        <Box sx = {{
+                        <Box className="delete-promotion" sx = {{
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
@@ -83,7 +83,7 @@ function PromotionCard( {promotion}) {
                         }}>
                             <Typography variant="h6">Delete Promotion?</Typography>
                             <Typography variant="body1">This action cannot be undone.</Typography>
-                            <Box sx = {{display: "flex", justifyContent: "right", gap: "10px"}}>
+                            <Box className="delete-promotion-btn-box" sx = {{display: "flex", justifyContent: "right", gap: "10px"}}>
                                 <Button variant="outlined" onClick={handleCloseDelete}>No</Button>
                                 <Button variant="outlined" onClick={handleDelete}>Yes</Button>
                             </Box>
