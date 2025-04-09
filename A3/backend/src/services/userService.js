@@ -110,7 +110,7 @@ async function getUsers(payload) {
             error.code = 'BAD_PAYLOAD';
             throw error;
         }
-        
+
         if (order !== undefined && !['asc', 'desc'].includes(order.toLowerCase())) {
             const error = new Error('Invalid "order" value, must be "asc" or "desc".');
             error.code = 'BAD_PAYLOAD';
@@ -556,7 +556,8 @@ async function getCurrentUserTransactions(payload, currentUser) {
     );
 
     let { type, relatedId, promotionId,
-        amount, operator, page = 1, limit = 10 } = cleanPayload;
+        amount, operator, page = 1, limit = 10,
+        order, orderBy } = cleanPayload;
 
     // create filters
     const filters = {};
@@ -573,7 +574,7 @@ async function getCurrentUserTransactions(payload, currentUser) {
             throw error;
         }
         filters.type = type;
-        
+
         if (relatedId !== undefined) {
             relatedId = validatePositiveNumber(relatedId, 'relatedId', true);
             filters.relatedId = relatedId;
@@ -584,7 +585,7 @@ async function getCurrentUserTransactions(payload, currentUser) {
         error.code = 'BAD_PAYLOAD';
         throw error;
     }
-    
+
     if (promotionId !== undefined) {
         promotionId = validatePositiveNumber(promotionId, 'promotionId', true);
         filters.promotionId = promotionId;
@@ -625,9 +626,32 @@ async function getCurrentUserTransactions(payload, currentUser) {
         throw error;
     }
 
+    // validate order and orderBy
+    if (order !== undefined && orderBy !== undefined) {
+        const sortableFields = ['amount', 'type', 'relatedId', 'remark', 'createdBy'];
+        if (orderBy !== undefined && !sortableFields.includes(orderBy)) {
+            const error = new Error(`Invalid "orderBy" field, must be one of: ${sortableFields.join(', ')}`);
+            error.code = 'BAD_PAYLOAD';
+            throw error;
+        }
+
+        if (order !== undefined && !['asc', 'desc'].includes(order.toLowerCase())) {
+            const error = new Error('Invalid "order" value, must be "asc" or "desc".');
+            error.code = 'BAD_PAYLOAD';
+            throw error;
+        }
+    } else if (order !== undefined || orderBy !== undefined) {
+        const error = new Error('order and orderBy must be specified together');
+        error.code = 'BAD_PAYLOAD';
+        throw error;
+    }
+
+    // build the sort options
+    const sortOptions = (order && orderBy) ? { field: orderBy, direction: order } : undefined
+
     const skip = (page - 1) * limit;
 
-    const { count, results } = await repository.getTransactionsWithFilters(filters, skip, limit);
+    const { count, results } = await repository.getTransactionsWithFilters(filters, skip, limit, sortOptions);
 
     const filteredResults = results.map(t => {
         const rawTransaction = {

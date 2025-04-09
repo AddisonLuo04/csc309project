@@ -54,7 +54,7 @@ async function createPromotion(payload) {
 }
 
 async function getPromotions(payload, currentUser) {
-    let { name, type, page = 1, limit = 10, started, ended } = payload;
+    let { name, type, page = 1, limit = 10, started, ended, order, orderBy } = payload;
 
     // validate payload data
     if (name !== undefined && typeof (name) !== 'string') {
@@ -100,9 +100,34 @@ async function getPromotions(payload, currentUser) {
         }
     }
 
+    // validate order and orderBy
+    order = order !== null ? order : undefined
+    orderBy = orderBy !== null ? orderBy : undefined
+    if (order !== undefined && orderBy !== undefined) {
+        const sortableFields = ['name', 'type', 'endTime', 'minSpending', 'rate', 'points', 'startTime'];
+        if (orderBy !== undefined && !sortableFields.includes(orderBy)) {
+            const error = new Error(`Invalid "orderBy" field, must be one of: ${sortableFields.join(', ')}`);
+            error.code = 'BAD_PAYLOAD';
+            throw error;
+        }
+
+        if (order !== undefined && !['asc', 'desc'].includes(order.toLowerCase())) {
+            const error = new Error('Invalid "order" value, must be "asc" or "desc".');
+            error.code = 'BAD_PAYLOAD';
+            throw error;
+        }
+    } else if (order !== undefined || orderBy !== undefined) {
+        const error = new Error('order and orderBy must be specified together');
+        error.code = 'BAD_PAYLOAD';
+        throw error;
+    }
+
+    // build the sort options
+    const sortOptions = (order && orderBy) ? { field: orderBy, direction: order } : undefined
+
     const skip = (page - 1) * limit;
 
-    const { count, results } = await repository.getPromotionsWithFilters(filters, skip, limit);
+    const { count, results } = await repository.getPromotionsWithFilters(filters, skip, limit, sortOptions);
 
     return { count, results };
 }

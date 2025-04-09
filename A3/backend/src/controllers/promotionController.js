@@ -33,10 +33,10 @@ async function getPromotions(req, res) {
         const currentUser = req.user;
         let allowedFields;
         if (currentUser.role == 'regular' || currentUser.role == 'cashier') {
-            allowedFields = ['name', 'type', 'page', 'limit'];
+            allowedFields = ['name', 'type', 'page', 'limit', 'order', 'orderBy'];
         } else {
             // should be manager or superuser
-            allowedFields = ['name', 'type', 'page', 'limit', 'started', 'ended'];
+            allowedFields = ['name', 'type', 'page', 'limit', 'started', 'ended', 'order', 'orderBy'];
         }
 
         validatePayload(payload, allowedFields, []);

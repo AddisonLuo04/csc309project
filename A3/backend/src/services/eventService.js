@@ -52,7 +52,8 @@ async function createEvent(payload) {
 
 async function getEvents(payload, currentUser) {
     let { name, location, started, ended,
-        showFull = false, page = 1, limit = 10, published } = payload;
+        showFull = false, page = 1, limit = 10, published,
+        order, orderBy } = payload;
 
     // validate payload data
     if (name !== undefined && typeof (name) !== 'string') {
@@ -111,6 +112,31 @@ async function getEvents(payload, currentUser) {
         }
     }
 
+    // validate order and orderBy
+    order = order !== null ? order : undefined
+    orderBy = orderBy !== null ? orderBy : undefined
+    if (order !== undefined && orderBy !== undefined) {
+        const sortableFields = ['name', 'location', 'startTime', 'endTime', 'capacity', 'numGuests'];
+        if (orderBy !== undefined && !sortableFields.includes(orderBy)) {
+            const error = new Error(`Invalid "orderBy" field, must be one of: ${sortableFields.join(', ')}`);
+            error.code = 'BAD_PAYLOAD';
+            throw error;
+        }
+
+        if (order !== undefined && !['asc', 'desc'].includes(order.toLowerCase())) {
+            const error = new Error('Invalid "order" value, must be "asc" or "desc".');
+            error.code = 'BAD_PAYLOAD';
+            throw error;
+        }
+    } else if (order !== undefined || orderBy !== undefined) {
+        const error = new Error('order and orderBy must be specified together');
+        error.code = 'BAD_PAYLOAD';
+        throw error;
+    }
+
+    // build the sort options
+    const sortOptions = (order && orderBy) ? { field: orderBy, direction: order } : undefined
+
     const events = await repository.getAllEventsWithFilters(filters);
 
     // try manual paging instead since we need to do showFull on all events, 
@@ -131,6 +157,46 @@ async function getEvents(payload, currentUser) {
         filteredEvents = events;
     }
     const count = filteredEvents.length;
+
+    // apply sorting on the filteredEvents array if sortOptions exist
+    if (sortOptions) {
+        filteredEvents.sort((a, b) => {
+            let valA;
+            let valB;
+            // if we are sorting by numGuests, set the values to the 
+            // length of the guests array
+            if (sortOptions.field === 'numGuests') {
+                valA = a.guests.length
+                valB = b.guests.length
+            } else {
+                valA = a[sortOptions.field];
+                valB = b[sortOptions.field];
+            }
+
+            // handle for undefined
+            if (valA === undefined || valA === null) return 1;
+            if (valB === undefined || valB === null) return -1;
+
+            // convert to date objects if field is start/endTime
+            if (sortOptions.field === 'startTime' || sortOptions.field === 'endTime') {
+                valA = new Date(valA);
+                valB = new Date(valB);
+            }
+
+            if (typeof valA === 'string' && typeof valB === 'string') {
+                const comparison = valA.localeCompare(valB);
+                return sortOptions.direction === 'asc' ? comparison : -comparison;
+            } else if (typeof valA === 'number' && typeof valB === 'number') {
+                return sortOptions.direction === 'asc' ? valA - valB : valB - valA;
+            } else if (valA instanceof Date && valB instanceof Date) {
+                return sortOptions.direction === 'asc' ? valA - valB : valB - valA;
+            } else {
+                // fallback: try converting to string
+                const comparison = String(valA).localeCompare(String(valB));
+                return sortOptions.direction === 'asc' ? comparison : -comparison;
+            }
+        });
+    }
 
     // apply pagination manually
     // calculate skip and take, then slice the filteredEvents array

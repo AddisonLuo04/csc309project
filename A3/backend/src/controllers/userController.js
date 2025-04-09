@@ -337,7 +337,7 @@ async function getCurrentUserTransactions(req, res) {
         // payload in query for get
         const payload = req.query;
         const allowedFields = ['type', 'relatedId', 'promotionId',
-            'amount', 'operator', 'page', 'limit'];
+            'amount', 'operator', 'page', 'limit', 'order', 'orderBy'];
         validatePayload(payload, allowedFields, []);
 
         const currentUser = req.user;

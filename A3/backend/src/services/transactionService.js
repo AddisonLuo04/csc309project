@@ -293,7 +293,8 @@ async function getTransactions(payload) {
     );
 
     let { name, createdBy, suspicious, promotionId,
-        type, relatedId, amount, operator, page = 1, limit = 10 } = cleanPayload;
+        type, relatedId, amount, operator, page = 1, limit = 10,
+        order, orderBy } = cleanPayload;
 
     // create filters
     const filters = {};
@@ -384,9 +385,32 @@ async function getTransactions(payload) {
         throw error;
     }
 
+    // validate order and orderBy
+    if (order !== undefined && orderBy !== undefined) {
+        const sortableFields = ['utorid', 'amount', 'type', 'relatedId', 'suspicious', 'remark', 'createdBy'];
+        if (orderBy !== undefined && !sortableFields.includes(orderBy)) {
+            const error = new Error(`Invalid "orderBy" field, must be one of: ${sortableFields.join(', ')}`);
+            error.code = 'BAD_PAYLOAD';
+            throw error;
+        }
+
+        if (order !== undefined && !['asc', 'desc'].includes(order.toLowerCase())) {
+            const error = new Error('Invalid "order" value, must be "asc" or "desc".');
+            error.code = 'BAD_PAYLOAD';
+            throw error;
+        }
+    } else if (order !== undefined || orderBy !== undefined) {
+        const error = new Error('order and orderBy must be specified together');
+        error.code = 'BAD_PAYLOAD';
+        throw error;
+    }
+
+    // build the sort options
+    const sortOptions = (order && orderBy) ? { field: orderBy, direction: order } : undefined
+
     const skip = (page - 1) * limit;
 
-    const { count, results } = await repository.getTransactionsWithFilters(filters, skip, limit);
+    const { count, results } = await repository.getTransactionsWithFilters(filters, skip, limit, sortOptions);
 
     const filteredResults = results.map(t => {
         const rawTransaction = {

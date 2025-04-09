@@ -55,7 +55,8 @@ async function getTransactions(req, res) {
         // payload in query for get
         const payload = req.query;
         const allowedFields = ['name', 'createdBy', 'suspicious', 'promotionId',
-            'type', 'relatedId', 'amount', 'operator', 'page', 'limit'];
+            'type', 'relatedId', 'amount', 'operator',
+            'page', 'limit', 'order', 'orderBy'];
         validatePayload(payload, allowedFields, []);
 
         // assume results fields has been properly filtered

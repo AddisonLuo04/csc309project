@@ -49,9 +49,9 @@ async function getUsersWithFilters(filters, skip, take, sortOptions = undefined)
         prisma.user.count({ where: filters }),
         prisma.user.findMany({
             where: filters,
-            skip, 
+            skip,
             take,
-            orderBy: sortOptions ? { [sortOptions.field] : sortOptions.direction } : undefined
+            orderBy: sortOptions ? { [sortOptions.field]: sortOptions.direction } : undefined
         })
     ]);
     return { count, results };
@@ -93,10 +93,15 @@ async function createPromotion(details) {
     return await prisma.promotion.create({ data: details })
 }
 
-async function getPromotionsWithFilters(filters, skip, take) {
+async function getPromotionsWithFilters(filters, skip, take, sortOptions = undefined) {
     const [count, results] = await Promise.all([
         prisma.promotion.count({ where: filters }),
-        prisma.promotion.findMany({ where: filters, skip, take })
+        prisma.promotion.findMany({
+            where: filters,
+            skip, 
+            take,
+            orderBy: sortOptions ? { [sortOptions.field]: sortOptions.direction } : undefined
+        })
     ]);
     return { count, results };
 }
@@ -281,7 +286,7 @@ async function getTransactionById(transactionId) {
     });
 }
 
-async function getTransactionsWithFilters(filters, skip, take) {
+async function getTransactionsWithFilters(filters, skip, take, sortOptions = undefined) {
     const [count, results] = await Promise.all([
         prisma.transaction.count({
             where: filters
@@ -296,7 +301,9 @@ async function getTransactionsWithFilters(filters, skip, take) {
                 }
             },
             skip,
-            take
+            take,
+            orderBy: sortOptions ?
+                { [sortOptions.field]: sortOptions.direction } : undefined
         })
     ]);
     return { count, results };

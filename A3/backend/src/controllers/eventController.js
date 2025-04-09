@@ -35,11 +35,11 @@ async function getEvents(req, res) {
         let allowedFields;
         if (currentUser.role == 'regular' || currentUser.role == 'cashier') {
             allowedFields = ['name', 'location', 'started', 'ended',
-                'showFull', 'page', 'limit'];
+                'showFull', 'page', 'limit', 'order', 'orderBy'];
         } else {
             // should be manager or superuser
             allowedFields = ['name', 'location', 'started', 'ended',
-                'showFull', 'page', 'limit', 'published'];
+                'showFull', 'page', 'limit', 'published', 'order', 'orderBy'];
         }
 
         validatePayload(payload, allowedFields, []);
