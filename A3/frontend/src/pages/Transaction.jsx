@@ -77,7 +77,7 @@ function Transaction() {
             />
             {error && <Typography variant="body2" sx={{color: "red"}}>{error}</Typography>}
         </div>
-            <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+            <div className="btn-group-transaction">
             <Button variant="outlined" onClick={handleOpenTransfer}>Make a Transfer</Button>
             <Modal open={openTransfer} onClose={handleCloseTransfer}>
                 <CreateTransferModal />

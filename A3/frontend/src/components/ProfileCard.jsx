@@ -22,7 +22,7 @@ function ProfileCard({ user, onEdit, avatarSrc, onUpdate }) {
         setQrDialogOpen(false);
     };
     return (
-        <Card variant="outlined">
+        <Card className="profile-card" variant="outlined">
             <CardContent>
                 <Grid container spacing={2} alignItems="center">
                     {/* Avatar Column */}

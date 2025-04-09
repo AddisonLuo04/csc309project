@@ -68,6 +68,12 @@ footer {
     gap: 10px;
 }
 
+.btn-group-transaction {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
 .card-group {
     display: flex;
     flex-direction: column;
@@ -102,6 +108,7 @@ footer {
     main {
         padding: 20px 10px;
         gap: 10px;
+        overflow-y: auto !important;
     }
 
     main h2 {
@@ -109,7 +116,9 @@ footer {
     }
 
     footer {
-        font-size: 12px;
+        font-size: 10px;
+        height: 14px;
+        padding: 0px;
     }
 
     .btn-group {
@@ -123,6 +132,13 @@ footer {
         height: 150px;
     }
 
+    .profile-card {
+        width: 300px;
+    }
+    .profile-card button {
+        font-size: 10px;
+    }
+
     .dashboard-title {
         font-size: 18px !important;
     }
@@ -131,11 +147,59 @@ footer {
         font-size: 8px !important;
     }
 
-    .purchase-box {
+    .box {
         width: 300px !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
     }
     
     .table-box {
         width: 300px !important;
+        height: 300px !important;
     }
+
+    .filter-box {
+        width: 300px !important;
+        gap: 0px !important;
+    }
+
+    .filter-box > * {
+        width: 100px !important;
+    }
+
+    .table-head {
+        height: 10px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    
+    .delete-promotion {
+        width: 300px !important;
+    }
+
+    .delete-promotion > h6 {
+        font-size: 16px !important;
+    }
+
+    .delete-promotion > p {
+        font-size: 12px !important;
+    }
+
+    .delete-promotion-btn-box > button {
+        margin-top: 10px;
+        height: 24px !important;
+        font-size: 12px !important;
+    }
+
+    .btn-group-transaction {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .btn-group-transaction > button {
+        height: 24px;;
+        font-size: 10px;
+    }
+
+
 }

@@ -35,7 +35,7 @@ const { transferMessage, setTransferMessage, addTransfer } = useTransaction();
     };
 
     return (
-        <Box sx = {{
+        <Box className="box" sx = {{
         position: 'absolute',
         top: '50%',
         left: '50%',

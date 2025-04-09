@@ -110,12 +110,12 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
                 onChange={(next) => setSearchParams(cleanParams(next))}
             />
             <Paper>
-                <TableContainer className="table-box" component={Paper} sx={{ width: '100w', maxHeight: 400 }}>
+                <TableContainer className="table-box" component={Paper} sx={{ maxWidth: '90vw', width: 1000, maxHeight: 400 }}>
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>
                                 {columns.map((col) => (
-                                    <TableCell
+                                    <TableCell className="table-head"
                                         key={col.field}
                                         sortDirection={orderBy === col.field ? order : false}
                                     >

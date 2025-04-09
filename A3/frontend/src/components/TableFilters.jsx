@@ -20,7 +20,7 @@ const TableFilters = ({ filtersConfig, params, onChange }) => {
     };
 
     return (
-        <Box className="table-box" p={2} display="flex" gap={2} flexWrap="wrap" justifyContent="center" width="800px">
+        <Box className="filter-box" p={2} display="flex" gap={2} flexWrap="wrap" justifyContent="center" width="100w">
             {filtersConfig.map((filter) => {
                 const value = params[filter.field] ?? '';
 

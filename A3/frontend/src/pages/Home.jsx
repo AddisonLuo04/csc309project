@@ -108,9 +108,9 @@ function Home() {
                 <h2>Dashboard</h2>
                 <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
                     <div style={{display: "flex", gap: "8px"}}>
-                    <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                    <Card variant="outlined" className="dashboard-card">
                         <CardContent>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography className="dashboard-title" gutterBottom variant="h6" component="div">
                                 Events
                             </Typography>
                             <Typography variant="body2">
@@ -118,7 +118,7 @@ function Home() {
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>
-                            <Button size="small" variant="outlined" onClick={() => navigate("/event")}>Manage Events</Button>
+                            <Button className="dashboard-btn" size="small" variant="outlined" onClick={() => navigate("/event")}>Manage Events</Button>
                         </CardActions>
                     </Card>
                     </div>
