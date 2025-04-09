@@ -18,7 +18,8 @@ import {
 import { useUser } from "../contexts/UserContext";
 
 const EditUserDialog = ({ open, onClose }) => {
-    const { updateUserStatus, currentInterface, singleUser, setStatusChange } = useUser();
+    const { updateUserStatus, currentInterface,
+        singleUser, statusChange, setStatusChange } = useUser();
 
     const [updateData, setUpdateData] = useState({
         email: singleUser?.email || "",
@@ -29,6 +30,8 @@ const EditUserDialog = ({ open, onClose }) => {
 
     // state for field-specific errors
     const [fieldErrors, setFieldErrors] = useState({});
+
+    const [updated, setUpdated] = useState(false);
 
     // refresh local state when the user prop changes 
     // e.g. dialog is opened for a new user:
@@ -81,8 +84,8 @@ const EditUserDialog = ({ open, onClose }) => {
 
         try {
             await updateUserStatus(singleUser.id, updateData);
-            // single to usercontext to update the singleUser right away
-            setStatusChange(true);
+            // toggle the statusChange to let usercontext know to update the singleUser right away
+            setStatusChange(!statusChange);
             onClose();
         } catch (err) {
             if (err.message.includes("email")) {

@@ -136,11 +136,9 @@ export const UserProvider = ({ children }) => {
     // on a status change of a user from a manager, fetch+update the user
     useEffect(() => {
         async function fetchData() {
-            if (singleUser && statusChange) {
+            if (singleUser) {
                 const updated = await getUserAPI(singleUser.id, token);
                 setSingleUser(updated);
-            } else {
-                setStatusChange(false);
             }
         }
         fetchData();
@@ -180,7 +178,7 @@ export const UserProvider = ({ children }) => {
             user, loading, error, setError, updateProfile, updatePassword, avatarSrc, 
             getOwnTransactions,currentInterface, setCurrentInterface, availableInterfaces, 
             getUsers, allUsersCount, getAllUsersCount, getUser, singleUser, 
-            updateUserStatus, setStatusChange
+            updateUserStatus, statusChange, setStatusChange
         }}>
             {children}
         </UserContext.Provider>

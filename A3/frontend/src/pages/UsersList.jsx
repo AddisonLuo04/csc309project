@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PaginatedTable from '../components/PaginatedTable';
 import { useUser } from '../contexts/UserContext';
 
@@ -32,6 +32,8 @@ const UsersList = () => {
         { field: 'verified', label: 'Verified', type: 'boolean' },
         { field: 'activated', label: 'Activated', type: 'boolean' },
     ];
+    
+    const [initialParams, setInitialParams] = useState({ page: 1, limit: 10 });
 
     return (
         <div>
@@ -40,7 +42,7 @@ const UsersList = () => {
                 fetchData={getUsers}
                 columns={columns}
                 filtersConfig={filtersConfig}
-                initialParams={{ page: 1, limit: 10 }}
+                initialParams={initialParams}
             />
         </div>
     );

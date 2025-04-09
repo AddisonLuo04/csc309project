@@ -96,6 +96,7 @@ async function getUserById(req, res) {
                 email: user.email,
                 birthday: user.birthday,
                 role: user.role,
+                suspicious: user.suspicious,
                 points: user.points,
                 createdAt: user.createdAt,
                 lastLogin: user.lastLogin,
