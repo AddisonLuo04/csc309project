@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Box, TextField, Select, MenuItem, FormControl, InputLabel, Button } from "@mui/material";
 import { usePromotion } from "../contexts/PromotionContext";
 
 const EditPromotionModal = ( { promotion }) => {

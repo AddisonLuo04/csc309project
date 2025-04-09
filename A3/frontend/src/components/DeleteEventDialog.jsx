@@ -49,7 +49,7 @@ const DeleteEventDialog = ({ open, onClose }) => {
                 <Button variant="outlined" onClick={onClose}>
                     Cancel
                 </Button>
-                <Button variant="contained" color="error" onClick={handleDelete}>
+                <Button variant="outlined" color="error" onClick={handleDelete}>
                     Confirm Delete
                 </Button>
             </DialogActions>

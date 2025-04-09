@@ -63,27 +63,31 @@ export const TransactionProvider = ({ children }) => {
     };
 
     const getAllTransactionsCount = async () => {
-        setLoading(true);
-        try {
-            const response = await getAllTransactionsAPI('', token);
-            setAllTransactionsCount(response.count);
-        } catch(err) {
-            throw err;
-        } finally {
-            setLoading(false);
+        if (user && user.role !== "regular" && user.role !== "cashier") {
+            setLoading(true);
+            try {
+                const response = await getAllTransactionsAPI('', token);
+                setAllTransactionsCount(response.count);
+            } catch(err) {
+                throw err;
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
     const getAllTransactions = async (params) => {
-        setLoading(true);
-        setAllTransactionsError(null);
-        try {
-            return await getAllTransactionsAPI(params, token);
-        } catch(err) {
-            setAllTransactionsError(err.message);
-            throw err;
-        } finally {
-            setLoading(false);
+        if (user && user.role !== "regular" && user.role !== "cashier") {
+            setLoading(true);
+            setAllTransactionsError(null);
+            try {
+                return await getAllTransactionsAPI(params, token);
+            } catch(err) {
+                setAllTransactionsError(err.message);
+                throw err;
+            } finally {
+                setLoading(false);
+            }
         }
     };
 

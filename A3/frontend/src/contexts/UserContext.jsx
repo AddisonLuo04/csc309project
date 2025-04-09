@@ -63,29 +63,33 @@ export const UserProvider = ({ children }) => {
 
     // get a count of all users
     const getAllUsersCount = async () => {
-        setLoading(true);
-        try {
-            const response = await getUsersAPI('', token);
-            setAllUsersCount(response.count);
-        } catch (err) {
-            throw err;
-        } finally {
-            setLoading(false);
+        if (user && user.role !== "regular" && user.role !== "cashier") {
+            setLoading(true);
+            try {
+                const response = await getUsersAPI('', token);
+                setAllUsersCount(response.count);
+            } catch (err) {
+                throw err;
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
     // get all users:
     const getUsers = async (params) => {
-        if (!token) return;
-        setLoading(true);
-        setError(null);
-        try {
-            return await getUsersAPI(params, token);
-        } catch (err) {
-            setError(err.message);
-            throw err;
-        } finally {
-            setLoading(false);
+        if (user && user.role !== "regular" && user.role !== "cashier") {
+            if (!token) return;
+            setLoading(true);
+            setError(null);
+            try {
+                return await getUsersAPI(params, token);
+            } catch (err) {
+                setError(err.message);
+                throw err;
+            } finally {
+                setLoading(false);
+            }
         }
     };
 

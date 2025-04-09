@@ -13,7 +13,7 @@ import {
 import { useEvent } from '../contexts/EventContext';
 
 const ManageGuestDialog = ({ open, onClose }) => {
-    const { singleEvent, addGuest, deleteGuest } = useEvent();
+    const { singleEvent, addGuest, deleteGuest, statusChange, setStatusChange } = useEvent();
     const [action, setAction] = useState('add');
     const [guest, setGuest] = useState('');
     const [error, setError] = useState('');
@@ -36,7 +36,7 @@ const ManageGuestDialog = ({ open, onClose }) => {
                 await deleteGuest(guest.trim(), singleEvent.id);
                 setSuccessMessage(`User ${guest.trim()} removed.`);
             }
-
+            setStatusChange(!statusChange);
             setGuest('');
         } catch (err) {
             setError(err.message || 'Something went wrong.');
@@ -83,8 +83,8 @@ const ManageGuestDialog = ({ open, onClose }) => {
                 )}
             </DialogContent>
             <DialogActions sx={{ justifyContent: 'center' }}>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button variant="contained" onClick={handleConfirm}>
+                <Button variant="outlined" onClick={handleClose}>Cancel</Button>
+                <Button variant="contained" sx={{bgcolor:"#4a4e69"}} onClick={handleConfirm}>
                     Confirm
                 </Button>
             </DialogActions>

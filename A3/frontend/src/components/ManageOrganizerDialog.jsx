@@ -13,7 +13,7 @@ import {
 import { useEvent } from '../contexts/EventContext';
 
 const ManageOrganizerDialog = ({ open, onClose }) => {
-    const { singleEvent, addOrganizer, deleteOrganizer } = useEvent();
+    const { singleEvent, addOrganizer, deleteOrganizer, statusChange, setStatusChange } = useEvent();
     const [action, setAction] = useState('add');
     const [guest, setGuest] = useState('');
     const [error, setError] = useState('');
@@ -36,7 +36,7 @@ const ManageOrganizerDialog = ({ open, onClose }) => {
                 await deleteOrganizer(guest.trim(), singleEvent.id);
                 setSuccessMessage(`User ${guest.trim()} removed as an organizer.`);
             }
-
+            setStatusChange(!statusChange);
             setGuest('');
         } catch (err) {
             setError(err.message || 'Something went wrong.');
@@ -83,8 +83,8 @@ const ManageOrganizerDialog = ({ open, onClose }) => {
                 )}
             </DialogContent>
             <DialogActions sx={{ justifyContent: 'center' }}>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button variant="contained" onClick={handleConfirm}>
+                <Button variant="outlined" onClick={handleClose}>Cancel</Button>
+                <Button variant="contained" sx={{bgcolor:"#4a4e69"}} onClick={handleConfirm}>
                     Confirm
                 </Button>
             </DialogActions>

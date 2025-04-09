@@ -13,12 +13,13 @@ import { useEvent } from "../contexts/EventContext";
 import { useAuth } from "../contexts/AuthContext";
 
 const RsvpEventDialog = ({ open, onClose }) => {
-    const { singleEvent, addSelfToEvent, removeSelfFromEvent, setError } = useEvent();
+    const { singleEvent, addSelfToEvent, removeSelfFromEvent, error, setError, statusChange, setStatusChange } = useEvent();
     const { user, fetchUser } = useAuth();
     const isGuest = user?.eventsAsGuest?.some((e) => e.id === singleEvent.id);
     const rsvp = !isGuest;
 
     const handleConfirm = async () => {
+        setError(null);
         try {
             if (rsvp) {
                 await addSelfToEvent(singleEvent.id);
@@ -27,11 +28,12 @@ const RsvpEventDialog = ({ open, onClose }) => {
             }
             // call fetch user to signal that the current user's info has been updated
             fetchUser();
+            setStatusChange(!statusChange);
             onClose(); // close the dialog on success
         } catch (err) {
             setError(err.message);
             console.error(err);
-            onClose();
+            // onClose();
         }
     };
 
@@ -56,11 +58,14 @@ const RsvpEventDialog = ({ open, onClose }) => {
                 </Typography>
             </DialogContent>
             <DialogActions sx={{ justifyContent: "center" }}>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={handleConfirm} variant="contained" color="primary">
+                <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                <Button onClick={handleConfirm} variant="contained" sx={{bgcolor:"#4a4e69"}}>
                     {rsvp ? "Confirm RSVP" : "Remove RSVP"}
                 </Button>
             </DialogActions>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                <p>{error}</p>
+            </div>
         </Dialog>
     );
 };

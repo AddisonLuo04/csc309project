@@ -61,7 +61,7 @@ function Home() {
                             recentTransactions.map((transaction) => (
                             <div key={transaction.id} className="transaction">
                             <Accordion sx={{mt: "4px"}}>
-                                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{'&.Mui-expanded': '0px'}}>
+                                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                                 <p style={{fontSize: "16px"}}><strong>Transaction {transaction.id}</strong></p>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -187,7 +187,7 @@ function Home() {
                 </div>
             </>
         : (<> {/* Not logged in*/}
-            <h1>Welcome to A3!</h1>
+            <h1>Welcome to the A3 Loyalty Program!</h1>
             <div className="row">
                 <Link to="/login">Login</Link>
             </div>

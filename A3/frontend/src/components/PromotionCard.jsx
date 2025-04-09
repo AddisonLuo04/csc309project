@@ -56,7 +56,7 @@ function PromotionCard( {promotion}) {
                     Type: {promotion.type}
                 </Typography>
                 <Typography variant="body2">
-                    From {promotion.startTime} <br></br>To {promotion.endTime}
+                    From: {promotion.startTime} <br></br>To: {promotion.endTime}
                 </Typography>
                 <Typography variant="body2">
                     You must spend at least ${promotion.minSpending} to trigger the promotion. 
@@ -84,8 +84,8 @@ function PromotionCard( {promotion}) {
                             <Typography variant="h6">Delete Promotion?</Typography>
                             <Typography variant="body1">This action cannot be undone.</Typography>
                             <Box className="delete-promotion-btn-box" sx = {{display: "flex", justifyContent: "right", gap: "10px"}}>
-                                <Button variant="outlined" onClick={handleCloseDelete}>No</Button>
-                                <Button variant="outlined" onClick={handleDelete}>Yes</Button>
+                                <Button variant="outlined" onClick={handleCloseDelete}>Cancel</Button>
+                                <Button variant="outlined" color="error" onClick={handleDelete}>Delete</Button>
                             </Box>
                             {error && <Typography variant="body2" sx={{color: "red"}}>{error}</Typography>}
                         </Box>

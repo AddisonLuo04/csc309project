@@ -141,8 +141,8 @@ const UpdatePasswordDialog = ({ open, onClose }) => {
                         </Grid>
                     </Grid>
                     <DialogActions sx={{ px: 0, mt: 0, justifyContent: "center" }}>
-                        <Button onClick={onClose}>Cancel</Button>
-                        <Button type="submit" variant="contained">
+                        <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                        <Button type="submit" variant="contained" sx={{bgcolor:"#4a4e69"}}>
                             Save
                         </Button>
                     </DialogActions>

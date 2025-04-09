@@ -27,7 +27,7 @@ router.get('/me/transactions', jwtAuth, userController.getCurrentUserTransaction
 // create transfer transaction between logged in user (sender) to userId
 router.post('/:userId/transactions', jwtAuth, userController.createTransfer);
 
-router.get('/:userId', jwtAuth, requireClearance('cashier'), userController.getUserById);
+router.get('/:userId', jwtAuth, requireClearance('regular'), userController.getUserById);
 
 router.patch('/:userId', jwtAuth, requireClearance('manager'), userController.updateUserStatus);
 

@@ -163,8 +163,8 @@ const EditUserDialog = ({ open, onClose }) => {
                             </FormControl>
                         </Grid>
                         <DialogActions sx={{ px: 0, mt: 0, justifyContent: "center" }} >
-                            <Button onClick={onClose}>Cancel</Button>
-                            <Button onClick={handleSubmit} variant="contained">
+                            <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                            <Button onClick={handleSubmit} variant="contained" sx={{bgcolor:"#4a4e69"}}>
                                 Save
                             </Button>
                         </DialogActions>

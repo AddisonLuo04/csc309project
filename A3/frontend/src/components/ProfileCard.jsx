@@ -70,13 +70,13 @@ function ProfileCard({ user, onEdit, avatarSrc, onUpdate }) {
                 </Grid>
             </CardContent>
             <CardActions>
-                <Button variant="contained" onClick={onEdit}>
+                <Button variant="outlined" onClick={onEdit}>
                     Edit Profile
                 </Button>
-                <Button variant="contained" onClick={onUpdate}>
+                <Button variant="outlined" onClick={onUpdate}>
                     Change Password
                 </Button>
-                <Button variant="contained" onClick={handleOpenQrDialog}>
+                <Button variant="outlined" onClick={handleOpenQrDialog}>
                     Display QR Code
                 </Button>
 
