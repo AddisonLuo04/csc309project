@@ -49,8 +49,8 @@ function Home() {
                 {/* Regular*/}
                 <div style={{display: "block", textAlign: "center"}}>
                     <h2>Dashboard</h2>
-                    <Card variant="outlined" sx={{my: "8px"}}>
-                        <CardContent>
+                    <Card variant="outlined" sx={{my: "8px", p: "8px"}}>
+                        <CardContent sx={{padding: "0 !important"}}>
                             <strong>Points: </strong>{user.points}
                         </CardContent>
                     </Card>
@@ -61,7 +61,7 @@ function Home() {
                             recentTransactions.map((transaction) => (
                             <div key={transaction.id} className="transaction">
                             <Accordion sx={{mt: "4px"}}>
-                                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{'&.Mui-expanded': '0px'}}>
                                 <p style={{fontSize: "16px"}}><strong>Transaction {transaction.id}</strong></p>
                                 </AccordionSummary>
                                 <AccordionDetails>
@@ -77,7 +77,7 @@ function Home() {
                         </CardContent>
                     </Card>
                 </div>
-                <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                <div className="btn-group">
                     <Button variant="outlined" onClick={() => navigate("/transaction")}>Transactions Page</Button>
                     <Button variant="outlined" onClick={() => navigate("/event")}>Events Page</Button>
                     <Button variant="outlined" onClick={() => navigate("/promotion")}>Promotions Page</Button>
@@ -86,7 +86,7 @@ function Home() {
             : currentInterface === "cashier" ? <>
                 {/* Cashier*/}
                 <h2>Dashboard</h2>
-                <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                <div className="btn-group">
                     <Button variant="outlined" onClick={handleOpenForm}>Create Purchase</Button>
                     <Modal open={openForm} onClose={handleCloseForm}>
                         <CreatePurchaseModal />
@@ -97,7 +97,7 @@ function Home() {
                     </Modal>
                     <Button variant="outlined" onClick={() => navigate('/register')}>Register a User</Button>
                 </div>
-                <div style={{display: "flex", flexDirection: "row", gap: "10px"}}>
+                <div className="btn-group">
                     <Button variant="outlined" onClick={() => navigate("/transaction")}>Transactions Page</Button>
                     <Button variant="outlined" onClick={() => navigate("/event")}>Events Page</Button>
                     <Button variant="outlined" onClick={() => navigate("/promotion")}>Promotions Page</Button>
@@ -106,11 +106,11 @@ function Home() {
             : <>
                 {/* Manager/Superuser*/}
                 <h2>Dashboard</h2>
-                <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
-                    <div style={{display: "flex", gap: "8px"}}>
-                    <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                <div className="card-group">
+                    <div className="card-pair">
+                    <Card variant="outlined" className="dashboard-card">
                         <CardContent>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography className="dashboard-title" gutterBottom variant="h6" component="div">
                                 Events
                             </Typography>
                             <Typography variant="body2">
@@ -118,12 +118,12 @@ function Home() {
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>
-                            <Button size="small" variant="outlined" onClick={() => navigate("/event")}>Manage Events</Button>
+                            <Button className="dashboard-btn" size="small" variant="outlined" onClick={() => navigate("/event")}>Manage Events</Button>
                         </CardActions>
                     </Card>
-                    <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                    <Card variant="outlined" className="dashboard-card">
                         <CardContent>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography className="dashboard-title" gutterBottom variant="h6" component="div">
                                 Promotions
                             </Typography>
                             <Typography variant="body2">
@@ -131,14 +131,14 @@ function Home() {
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>
-                            <Button size="small" variant="outlined" onClick={() => navigate("/promotion")}>Manage Promotions</Button>
+                            <Button className="dashboard-btn" size="small" variant="outlined" onClick={() => navigate("/promotion")}>Manage Promotions</Button>
                         </CardActions>
                     </Card>
                     </div>
-                    <div style={{display: "flex", gap: "8px"}}>
-                    <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                    <div className="card-pair">
+                    <Card variant="outlined" className="dashboard-card">
                         <CardContent>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography className="dashboard-title" gutterBottom variant="h6" component="div">
                                 Users
                             </Typography>
                             <Typography variant="body2">
@@ -146,12 +146,12 @@ function Home() {
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>
-                            <Button size="small" variant="outlined" onClick={() => navigate("/users")}>Manage Users</Button>
+                            <Button className="dashboard-btn" size="small" variant="outlined" onClick={() => navigate("/users")}>Manage Users</Button>
                         </CardActions>
                     </Card>
-                    <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                    <Card variant="outlined" className="dashboard-card">
                         <CardContent>
-                            <Typography gutterBottom variant="h6" component="div">
+                            <Typography className="dashboard-title" gutterBottom variant="h6" component="div">
                                 Transactions
                             </Typography>
                             <Typography variant="body2">
@@ -159,7 +159,7 @@ function Home() {
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>
-                            <Button size="small" variant="outlined" onClick={() => navigate("/transaction")}>Manage Transactions</Button>
+                            <Button className="dashboard-btn" size="small" variant="outlined" onClick={() => navigate("/transaction")}>Manage Transactions</Button>
                         </CardActions>
                     </Card>
                     </div>
