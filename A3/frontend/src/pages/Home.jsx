@@ -10,6 +10,7 @@ import ProcessRedemptionModal from "../components/ProcessRedemptionModal";
 import { useDashboard } from "../contexts/DashboardContext";
 import { usePromotion } from "../contexts/PromotionContext";
 import { useEvent } from "../contexts/EventContext";
+import { useTransaction } from "../contexts/TransactionContext";
 
 function Home() {
     const { user } = useAuth();
@@ -18,12 +19,14 @@ function Home() {
 
     const { allPromotionsCount, getAllPromotionsCount } = usePromotion();
     const { allEventsCount, getAllEventsCount } = useEvent();
+    const { allTransactionsCount, getAllTransactionsCount} = useTransaction();
 
     useEffect(() => {
         // Get promotions count on mount
         getAllPromotionsCount();
         getAllEventsCount();
         getAllUsersCount();
+        getAllTransactionsCount();
     }, []);
 
     // Get recent transactions (max 3)
@@ -103,7 +106,8 @@ function Home() {
             : <>
                 {/* Manager/Superuser*/}
                 <h2>Dashboard</h2>
-                <div style={{display: "flex", gap: "8px"}}>
+                <div style={{display: "flex", flexDirection: "column", gap: "8px"}}>
+                    <div style={{display: "flex", gap: "8px"}}>
                     <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
                         <CardContent>
                             <Typography gutterBottom variant="h6" component="div">
@@ -130,6 +134,8 @@ function Home() {
                             <Button size="small" variant="outlined" onClick={() => navigate("/promotion")}>Manage Promotions</Button>
                         </CardActions>
                     </Card>
+                    </div>
+                    <div style={{display: "flex", gap: "8px"}}>
                     <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
                         <CardContent>
                             <Typography gutterBottom variant="h6" component="div">
@@ -143,6 +149,20 @@ function Home() {
                             <Button size="small" variant="outlined" onClick={() => navigate("/users")}>Manage Users</Button>
                         </CardActions>
                     </Card>
+                    <Card variant="outlined" sx={{position: "relative", width: "250px", height: "250px"}}>
+                        <CardContent>
+                            <Typography gutterBottom variant="h6" component="div">
+                                Transactions
+                            </Typography>
+                            <Typography variant="body2">
+                                There is a total of {allTransactionsCount} {allTransactionsCount === 1 ? 'transaction.' : 'transactions.' }
+                            </Typography>
+                        </CardContent>
+                        <CardActions sx={{position: "absolute", bottom: "0"}}>
+                            <Button size="small" variant="outlined" onClick={() => navigate("/transaction")}>Manage Transactions</Button>
+                        </CardActions>
+                    </Card>
+                    </div>
                 </div>
             </>
         : (<> {/* Not logged in*/}

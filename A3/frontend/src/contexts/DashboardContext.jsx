@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
-import { addPurchaseAPI, processRedemptionAPI } from '../api/transaction';
+import {  addTransactionAPI, processRedemptionAPI } from '../api/transaction';
 
 export const DashboardContext = createContext(null);
 
@@ -47,7 +47,7 @@ export const DashboardProvider = ({ children }) => {
             data.remark = formData.remark;
         }
         try {
-            const purchase = await addPurchaseAPI(data, token);
+            const purchase = await addTransactionAPI(data, token);
             setPurchaseMessage("Success!");
         } catch(err) {
             setPurchaseMessage(err.message);

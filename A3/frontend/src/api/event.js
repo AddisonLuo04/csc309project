@@ -37,3 +37,18 @@ export const getEventsAPI = async (params, token) => {
     }
     return await res.json();
 };
+
+export const getEventAPI = async (eventId, token) => {
+    const res = await fetch(`${BACKEND_URL}/events/${eventId}`, {
+        method: 'GET', 
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Get Event Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};

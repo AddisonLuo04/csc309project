@@ -17,6 +17,6 @@ router.patch('/:transactionId/suspicious', jwtAuth, requireClearance('manager'),
 router.patch('/:transactionId/processed', jwtAuth, requireClearance('cashier'), transactionController.processRedemption);
 
 // get transaction by id
-router.get('/:transactionId', jwtAuth, requireClearance('manager'), transactionController.getTransactionById);
+router.get('/:transactionId', jwtAuth, requireClearance('regular'), transactionController.getTransactionById);
 
 module.exports = router;

@@ -1,16 +1,18 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
-import { createEventAPI, getEventsAPI } from '../api/event';
+import { createEventAPI, getEventAPI, getEventsAPI } from '../api/event';
 import { useUser } from './UserContext';
 
 export const EventContext = createContext(null);
 
 export const EventProvider = ({ children }) => {
     const { token, user } = useAuth();
+    const { currentInterface } = useUser();
     const [loading, setLoading] = useState(false);
     const [createMessage, setCreateMessage] = useState(null);
-    const [events, setEvents] = useState([]);
     const [allEventsCount, setAllEventsCount] = useState(0);
+    const [error, setError] = useState(null);
+    const [singleEvent, setSingleEvent] = useState(null);
 
     const addEvent = async (formData) => {
         setLoading(true);
@@ -50,10 +52,39 @@ export const EventProvider = ({ children }) => {
         }
     };
 
+    const getEvents = async (params) => {
+        setLoading(true);
+        setError(null);
+        try {
+            return await getEventsAPI(params, token);
+        } catch(err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getEvent = async (eventId) => {
+        setLoading(true);
+        const parsedId = parseInt(eventId);
+        try {
+            const promotion = await getEventAPI(parsedId, token);
+            setSingleEvent(promotion);
+        } catch(err) {
+            setSingleEvent(null);
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <EventContext.Provider value={{
-            user, loading, createMessage, allEventsCount, setCreateMessage, addEvent, getAllEventsCount
+            user, loading, createMessage, allEventsCount, error, singleEvent, 
+            setCreateMessage, addEvent, getAllEventsCount, setError, getEvents, getEvent, 
         }}>
             {children}
         </EventContext.Provider>

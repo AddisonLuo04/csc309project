@@ -21,6 +21,8 @@ import Event from "./pages/Event";
 import { EventProvider } from "./contexts/EventContext";
 import UserPage from "./pages/UserPage";
 import PromotionPage from "./pages/PromotionPage";
+import TransactionPage from "./pages/TransactionPage";
+import EventPage from "./pages/EventPage";
 
 
 const theme = createTheme();
@@ -55,6 +57,14 @@ const MyRoutes = () => {
                 element={
                     <ProtectedRoute clearanceLevel="regular">
                         <Transaction />
+                    </ProtectedRoute>
+                }
+            />
+            <Route 
+                path="/transaction/:transactionId"
+                element={
+                    <ProtectedRoute clearanceLevel="regular">
+                        <TransactionPage />
                     </ProtectedRoute>
                 }
             />
@@ -95,6 +105,14 @@ const MyRoutes = () => {
                 element={
                     <ProtectedRoute clearanceLevel="regular">
                         <Event />
+                    </ProtectedRoute>
+                }
+            />
+            <Route 
+                path="/event/:eventId"
+                element={
+                    <ProtectedRoute clearanceLevel="regular">
+                        <EventPage />
                     </ProtectedRoute>
                 }
             />
