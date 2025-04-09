@@ -3,12 +3,15 @@ import {
     Table, TableBody, TableCell, TableContainer,
     TableHead, TableRow, Paper, TablePagination, TableSortLabel, Box
 } from '@mui/material';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import TableFilters from './TableFilters';
 
 const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} }) => {
     // directly use search params as our state:
     const [searchParams, setSearchParams] = useSearchParams(initialParams);
+    const navigate = useNavigate();
+    const path = useLocation().pathname;
 
     // convert searchParams into a plain object for the labels of the table
     const params = Object.fromEntries(searchParams.entries());
@@ -74,6 +77,12 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
         setSearchParams({ ...query, order: isAsc ? 'desc' : 'asc', orderBy: column });
     };
 
+    // handle row click
+    const handleRowClick = (row) => {
+        console.log(`${path}/${row.id}`);
+        navigate(`${path}/${row.id}`);
+    };
+
     // clean params for the filters
     const cleanParams = (params) => {
         const cleaned = { ...params };
@@ -120,7 +129,7 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
                         </TableHead>
                         <TableBody>
                             {data.map((row) => (
-                                <TableRow key={row.id}>
+                                <TableRow key={row.id} hover onClick={() => handleRowClick(row)} sx={{cursor: "pointer"}}>
                                     {columns.map((col) => (
                                         <TableCell key={col.field}>
                                             {/* use custom renderCell function if defined:

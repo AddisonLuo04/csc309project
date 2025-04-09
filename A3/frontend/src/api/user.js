@@ -122,10 +122,9 @@ export const addRedemptionAPI = async (payload, token) => {
     return await res.json();
 };
 
-export const getOwnTransactionsAPI = async (path, token) => {
-    const base = new URL(`${BACKEND_URL}/users/me/transactions`);
-    const url = new URL(path, base);
-    const res = await fetch(url, {
+export const getOwnTransactionsAPI = async (params, token) => {
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`${BACKEND_URL}/users/me/transactions?${query}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -155,4 +154,20 @@ export const getUsersAPI = async (params, token) => {
         throw new Error(errorMsg);
     }
     return await res.json();
+};
+
+export const getUserAPI = async (userId, token) => {
+    const res = await fetch(`${BACKEND_URL}/users/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Get User Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+
 };

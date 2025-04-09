@@ -19,6 +19,8 @@ import { PromotionProvider } from "./contexts/PromotionContext";
 import UsersList from "./pages/UsersList";
 import Event from "./pages/Event";
 import { EventProvider } from "./contexts/EventContext";
+import UserPage from "./pages/UserPage";
+import PromotionPage from "./pages/PromotionPage";
 
 
 const theme = createTheme();
@@ -65,10 +67,26 @@ const MyRoutes = () => {
                 }
             />
             <Route 
+                path="/promotion/:promotionId"
+                element={
+                    <ProtectedRoute clearanceLevel="regular">
+                        <PromotionPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route 
                 path="/users"
                 element={
                     <ProtectedRoute clearanceLevel="manager">
                         <UsersList />
+                    </ProtectedRoute>
+                }
+            />
+            <Route 
+                path="/users/:userId"
+                element={
+                    <ProtectedRoute clearanceLevel="manager">
+                        <UserPage />
                     </ProtectedRoute>
                 }
             />

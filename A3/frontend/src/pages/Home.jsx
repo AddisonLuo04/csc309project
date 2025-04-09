@@ -13,7 +13,7 @@ import { useEvent } from "../contexts/EventContext";
 
 function Home() {
     const { user } = useAuth();
-    const { currentInterface } = useUser();
+    const { currentInterface, allUsersCount, getAllUsersCount } = useUser();
     const { setPurchaseMessage, setRedemptionMessage } = useDashboard();
 
     const { allPromotionsCount, getAllPromotionsCount } = usePromotion();
@@ -23,6 +23,7 @@ function Home() {
         // Get promotions count on mount
         getAllPromotionsCount();
         getAllEventsCount();
+        getAllUsersCount();
     }, []);
 
     // Get recent transactions (max 3)
@@ -135,7 +136,7 @@ function Home() {
                                 Users
                             </Typography>
                             <Typography variant="body2">
-                                Eventinfo here
+                                There is a total of {allUsersCount} {allUsersCount === 1 ? 'user.' : 'users.' }
                             </Typography>
                         </CardContent>
                         <CardActions sx={{position: "absolute", bottom: "0"}}>

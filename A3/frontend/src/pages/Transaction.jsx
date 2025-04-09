@@ -9,7 +9,7 @@ import { useTransaction } from "../contexts/TransactionContext";
 
 function Transaction() {
     const { user } = useAuth();
-    const { currentInterface } = useUser();
+    const { currentInterface, getOwnTransactions, } = useUser();
     const { setTransferMessage, setRedemptionMessage } = useTransaction();
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -21,6 +21,18 @@ function Transaction() {
     const [openRedemption, setOpenRedemption] = useState(false);
     const handleOpenRedemption = () => setOpenRedemption(true);
     const handleCloseRedemption = () => { setRedemptionMessage(null); setOpenRedemption(false); }
+
+    const columns = [
+        { field: 'utorid', headerName: 'UTORid' },
+        { field: 'type', headerName: 'Type' },
+        { field: 'amount', headerName: 'Amount' },
+        { field: 'createdBy', headerName: 'Created By'}
+    ];
+
+    const regFiltersConfig = [
+        { field: 'name', label: 'Search by name or UTORid', type: 'text'},
+        { field: 'createdBy' }
+    ];
     
 
     return <>

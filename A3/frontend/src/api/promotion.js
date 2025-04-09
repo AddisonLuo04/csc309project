@@ -59,10 +59,9 @@ export const updatePromotionAPI = async (promotionId, payload, token) => {
     return await res.json();
 };
 
-export const getPromotionsAPI = async (path, token) => {
-    const base = new URL(`${BACKEND_URL}/promotions`);
-    const url = new URL(path, base);
-    const res = await fetch(url, {
+export const getPromotionsAPI = async (params, token) => {
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`${BACKEND_URL}/promotions?${query}`, {
         method: 'GET', 
         headers: {
             'Authorization': `Bearer ${token}`
@@ -71,6 +70,21 @@ export const getPromotionsAPI = async (path, token) => {
     if (!res.ok) {
         const errorData = await res.json();
         const errorMsg = `Get Promotions Failed: ${errorData.error || 'Unknown error'}`;
+        throw new Error(errorMsg);
+    }
+    return await res.json();
+};
+
+export const getPromotionAPI = async (promotionId, token) => {
+    const res = await fetch(`${BACKEND_URL}/promotions/${promotionId}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    if (!res.ok) {
+        const errorData = await res.json();
+        const errorMsg = `Get Promotion Failed: ${errorData.error || 'Unknown error'}`;
         throw new Error(errorMsg);
     }
     return await res.json();

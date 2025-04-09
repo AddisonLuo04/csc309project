@@ -35,10 +35,9 @@ export const processRedemptionAPI = async (redemptionId, token) => {
     return await res.json();
 };
 
-export const getAllTransactionsAPI = async (path, token) => {
-    const base = new URL(`${BACKEND_URL}/transactions`);
-    const url = new URL(path, base);
-    const res = await fetch(url, {
+export const getAllTransactionsAPI = async (params, token) => {
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`${BACKEND_URL}/transactions?${query}`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`

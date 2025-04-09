@@ -22,10 +22,9 @@ export const createEventAPI = async (payload, token) => {
     return await res.json();
 };
 
-export const getEventsAPI = async (path, token) => {
-    const base = new URL(`${BACKEND_URL}/events`);
-    const url = new URL(path, base);
-    const res = await fetch(url, {
+export const getEventsAPI = async (params, token) => {
+    const query = new URLSearchParams(params).toString();
+    const res = await fetch(`${BACKEND_URL}/events?${query}`, {
         method: 'GET', 
         headers: {
             'Authorization': `Bearer ${token}`

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { updateProfileAPI, avatarSrc, updatePasswordAPI, getUsersAPI } from '../api/user';
+import { updateProfileAPI, avatarSrc, updatePasswordAPI, getUsersAPI, getUserAPI, getOwnTransactionsAPI } from '../api/user';
 import { useAuth } from './AuthContext';
 
 export const UserContext = createContext(null);
@@ -18,6 +18,11 @@ export const UserProvider = ({ children }) => {
     // assume that we have in the beginning
     const [swappedUser, setSwappedUser] = useState(true);
 
+    // store count of all users 
+    const [allUsersCount, setAllUsersCount] = useState(0);
+
+    // store single user for user page
+    const [singleUser, setSingleUser] = useState(null);
 
     // function to update the current user's profile
     const updateProfile = async (profileData) => {
@@ -55,6 +60,19 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    // get a count of all users
+    const getAllUsersCount = async () => {
+        setLoading(true);
+        try {
+            const response = await getUsersAPI('', token);
+            setAllUsersCount(response.count);
+        } catch(err) {
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // get all users:
     const getUsers = async (params) => {
         if (!token) return;
@@ -63,6 +81,35 @@ export const UserProvider = ({ children }) => {
         try {
             return await getUsersAPI(params, token);
         } catch (err) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getUser = async (userId) => {
+        setLoading(true);
+        const parsedId = parseInt(userId);
+        try {
+            const user = await getUserAPI(parsedId, token);
+            setSingleUser(user);
+        } catch(err) {
+            setSingleUser(null);
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getOwnTransactions = async (params) => {
+        if (!token) return;
+        setLoading(true);
+        setError(null);
+        try {
+            return await getOwnTransactionsAPI(params, token);
+        } catch(err) {
             setError(err.message);
             throw err;
         } finally {
@@ -101,8 +148,8 @@ export const UserProvider = ({ children }) => {
 
     return (
         <UserContext.Provider value={{
-            user, loading, error, setError, updateProfile, updatePassword, avatarSrc,
-            currentInterface, setCurrentInterface, availableInterfaces, getUsers
+            user, loading, error, setError, updateProfile, updatePassword, avatarSrc, getOwnTransactions, 
+            currentInterface, setCurrentInterface, availableInterfaces, getUsers, allUsersCount, getAllUsersCount, getUser, singleUser,
         }}>
             {children}
         </UserContext.Provider>

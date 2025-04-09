@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
-import { createPromotionAPI, updatePromotionAPI, deletePromotionAPI, getPromotionsAPI } from '../api/promotion';
+import { createPromotionAPI, updatePromotionAPI, deletePromotionAPI, getPromotionsAPI, getPromotionAPI } from '../api/promotion';
 import { useUser } from './UserContext';
 
 export const PromotionContext = createContext(null);
@@ -11,8 +11,9 @@ export const PromotionProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [createMessage, setCreateMessage] = useState(null);
     const [updateMessage, setUpdateMessage] = useState(null);
-    const [promotions, setPromotions] = useState([]);
     const [allPromotionsCount, setAllPromotionsCount] = useState(0);
+    const [error, setError] = useState(null);
+    const [singlePromotion, setSinglePromotion] = useState(null);
 
     const addPromotion = async (formData) => {
         setLoading(true);
@@ -89,20 +90,13 @@ export const PromotionProvider = ({ children }) => {
         }
     };
 
-    const getPromotions = async(payload) => {
+    const getPromotions = async(params) => {
         setLoading(true);
-        const data = payload;
-        const results = [];
-        if (currentInterface === "regular" || currentInterface === "cashier") {
-            results.push(`startTime=${true}`);
-            results.push(`endTime=${false}`);
-        }
-        results.join('&');
+        setError(null);
         try {
-            // call api with path,
-            const response = await getPromotionsAPI(results, token);
-            setPromotions(response.results);
+            return await getPromotionsAPI(params, token);
         } catch(err) {
+            setError(err.message);
             throw err;
         } finally {
             setLoading(false);
@@ -121,9 +115,26 @@ export const PromotionProvider = ({ children }) => {
         }
     };
 
+    const getPromotion = async (promotionId) => {
+        setLoading(true);
+        const parsedId = parseInt(promotionId);
+        try {
+            const promotion = await getPromotionAPI(parsedId, token);
+            console.log(promotion);
+            setSinglePromotion(promotion);
+        } catch(err) {
+            setSinglePromotion(null);
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+
+    };
+
     return (
         <PromotionContext.Provider value={{
-            user, loading, createMessage, updateMessage, allPromotionsCount, promotions,
+            user, loading, createMessage, updateMessage, allPromotionsCount, getPromotions, error, getPromotion, singlePromotion,
             setUpdateMessage, setCreateMessage, addPromotion, deletePromotion, updatePromotion, getAllPromotionsCount
         }}>
             {children}
