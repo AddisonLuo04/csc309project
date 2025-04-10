@@ -84,7 +84,9 @@ const { transferMessage, setTransferMessage, addTransfer } = useTransaction();
                 </div>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "10px"}}>
-                {transferMessage && <p>{transferMessage}</p>}
+                {transferMessage && <p style={{ textAlign: "center",
+                    color: transferMessage === "Success!" ? "green" : "red"
+                }}>{transferMessage}</p>}
             </div>
         </Box>
     );

@@ -64,7 +64,7 @@ const RsvpEventDialog = ({ open, onClose }) => {
                 </Button>
             </DialogActions>
             <div style={{display: "flex", justifyContent: "center"}}>
-                <p>{error}</p>
+                <Typography sx={{textAlign: "center"}} variant="body2" color="error">{error}</Typography>
             </div>
         </Dialog>
     );

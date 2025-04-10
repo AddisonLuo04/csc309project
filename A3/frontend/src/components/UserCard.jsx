@@ -29,7 +29,7 @@ function UserCard() {
         (rolesOrder[currentInterface] >= rolesOrder["manager"]);
 
     return <>
-        <Card variant="outlined" sx={{ position: "relative", width: "250px", height: "250px" }}>
+        <Card variant="outlined" sx={{ position: "relative", width: "250px", height: "400px" }}>
             <CardContent>
                 <Typography gutterBottom variant="h6" component="div">
                     UTORID: {singleUser.utorid}
@@ -39,6 +39,27 @@ function UserCard() {
                 </Typography>
                 <Typography variant="body2">
                     Email: {singleUser.email}
+                </Typography>
+                <Typography variant="body2">
+                    Birthday: {singleUser.birthday ? singleUser.birthday : 'N/A'}
+                </Typography>
+                <Typography variant="body2">
+                    Role: {singleUser.role}
+                </Typography>
+                <Typography variant="body2">
+                    Points: {singleUser.points}
+                </Typography>
+                <Typography variant="body2">
+                    Verified: {singleUser.verified ? 'Yes' : 'No'}
+                </Typography>
+                <Typography variant="body2">
+                    Suspicious: {singleUser.suspicious ? 'Yes' : 'No'}
+                </Typography>
+                <Typography variant="body2">
+                    Created At: <br></br>{singleUser.createdAt}
+                </Typography>
+                <Typography variant="body2">
+                    Last Login: {singleUser.lastLogin ? <><br></br>{singleUser.lastLogin}</> : 'N/A'}
                 </Typography>
             </CardContent>
             {canEdit && (

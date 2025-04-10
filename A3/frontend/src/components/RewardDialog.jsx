@@ -127,8 +127,8 @@ const RewardDialog = ({ open, onClose }) => {
                 </Box>
             </DialogContent>
             <DialogActions sx={{ justifyContent: 'center' }}>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={handleSubmit} variant="contained">
+                <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                <Button onClick={handleSubmit} variant="contained" sx={{bgcolor:"#4a4e69"}}>
                     Confirm
                 </Button>
             </DialogActions>

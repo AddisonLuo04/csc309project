@@ -129,7 +129,9 @@ const EditPromotionModal = ( { promotion }) => {
                 </div>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "10px"}}>
-                {updateMessage && <p>{updateMessage}</p>}
+                {updateMessage && <p style={{ textAlign: "center",
+                    color: updateMessage === "Success!" ? "green" : "red"
+                }}>{updateMessage}</p>}
             </div>
         </Box>
     );

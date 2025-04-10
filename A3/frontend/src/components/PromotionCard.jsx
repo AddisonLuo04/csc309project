@@ -37,7 +37,6 @@ function PromotionCard( {promotion}) {
     const handleDelete = () => {
         try {
             deletePromotion(promotion.id);
-            navigate("/promotion");
         } catch(err) {
             setError(err);
         }

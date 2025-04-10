@@ -94,7 +94,9 @@ const CreatePurchaseModal = () => {
                 </div>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "10px"}}>
-                {purchaseMessage && <p>{purchaseMessage}</p>}
+                {purchaseMessage && <p style={{ textAlign: "center",
+                    color: purchaseMessage === "Success!" ? "green" : "red"
+                }}>{purchaseMessage}</p>}
             </div>
         </Box>
     );

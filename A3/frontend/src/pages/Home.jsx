@@ -187,7 +187,7 @@ function Home() {
                 </div>
             </>
         : (<> {/* Not logged in*/}
-            <h1>Welcome to the A3 Loyalty Program!</h1>
+            <h1 style={{textAlign: "center"}}>Welcome to the A3 Loyalty Program!</h1>
             <div className="row">
                 <Link to="/login">Login</Link>
             </div>

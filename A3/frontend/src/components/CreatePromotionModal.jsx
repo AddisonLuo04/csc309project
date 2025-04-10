@@ -129,7 +129,9 @@ const CreatePromotionModal = () => {
                 </div>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "10px"}}>
-                {createMessage && <p>{createMessage}</p>}
+                {createMessage && <p style={{ textAlign: "center",
+                    color: createMessage === "Success!" ? "green" : "red"
+                }}>{createMessage}</p>}
             </div>
         </Box>
     );

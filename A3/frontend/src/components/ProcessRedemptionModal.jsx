@@ -50,7 +50,9 @@ const ProcessRedemptionModal = () => {
                 </div>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "10px"}}>
-                {redemptionMessage && <p>{redemptionMessage}</p>}
+                {redemptionMessage && <p style={{ textAlign: "center",
+                    color: redemptionMessage === "Success!" ? "green" : "red"
+                }}>{redemptionMessage}</p>}
             </div>
         </Box>
     );

@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useAuth } from './AuthContext';
 import { createPromotionAPI, updatePromotionAPI, deletePromotionAPI, getPromotionsAPI, getPromotionAPI } from '../api/promotion';
 import { useUser } from './UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export const PromotionContext = createContext(null);
 
@@ -14,6 +15,7 @@ export const PromotionProvider = ({ children }) => {
     const [allPromotionsCount, setAllPromotionsCount] = useState(0);
     const [error, setError] = useState(null);
     const [singlePromotion, setSinglePromotion] = useState(null);
+    const navigate = useNavigate();
 
     const addPromotion = async (formData) => {
         if (!token) return;
@@ -52,7 +54,7 @@ export const PromotionProvider = ({ children }) => {
         setError(null);
         try {
             const promotion = await deletePromotionAPI(promotionId, token);
-            // TODO: handle post delete?
+            navigate("/promotion");
         } catch(err) {
             setError(err.message);
             throw err;

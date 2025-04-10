@@ -86,7 +86,11 @@ const CreateAdjustmentModal = ( {transaction} ) => {
                 </div>
             </form>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: "10px"}}>
-                {adjustmentMessage && <p>{adjustmentMessage}</p>}
+                {adjustmentMessage && <p style={{ textAlign: "center",
+                    color: adjustmentMessage === "Success!" ? "green" : "red"
+                }}>
+                    {adjustmentMessage}
+                </p>}
             </div>
         </Box>
     );
