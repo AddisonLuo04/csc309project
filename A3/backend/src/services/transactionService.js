@@ -306,10 +306,7 @@ async function getTransactions(payload) {
             error.code = 'BAD_PAYLOAD';
             throw error;
         }
-        filters.OR = [
-            { utorid: name },
-            { name }
-        ];
+        filters.utorid = name;
     }
 
     if (createdBy !== undefined) {
