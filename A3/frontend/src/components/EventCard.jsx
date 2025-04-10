@@ -57,6 +57,13 @@ function EventCard({ event }) {
 
     const isGuest = user?.eventsAsGuest?.some((e) => e.id === event.id);
 
+    // calculate num guests in different ways depending on 
+    // what role the current user is
+    const numGuests = (user?.role === 'manager' ||
+        user?.role === 'superuser' ||
+        user?.eventsAsOrganizer?.some((e) => e.id === event.id))
+        ? event.guests?.length : event.numGuests;
+
     return <>
         <Card variant="outlined" sx={{
             width: 300,
@@ -76,11 +83,9 @@ function EventCard({ event }) {
                 <Typography variant="body2">Until: {event.endTime}</Typography>
                 <Typography variant="body2">Capacity: {event.capacity ? event.capacity : 'None'}</Typography>
                 <Typography variant="body2">Organizers: {event?.organizers?.length}</Typography>
-                {currentInterface === "regular" || currentInterface === "cashier" ? <>
-                    <Typography variant="body2">Guests: {event.numGuests}</Typography>
-                </> : <>
-                    <Typography variant="body2">Guests: {event.guests.length}</Typography>
-                    <Typography variant="body2">Points Remaining: {event.pointsRemain}</Typography> 
+                <Typography variant="body2">Guests: {numGuests}</Typography>
+                {!(currentInterface === "regular" || currentInterface === "cashier") && <>
+                    <Typography variant="body2">Points Remaining: {event.pointsRemain}</Typography>
                     <Typography variant="body2">Points Awarded: {event.pointsAwarded}</Typography>
                 </>
                 }
@@ -135,7 +140,7 @@ function EventCard({ event }) {
         {rsvpDialogOpen && (
             <RsvpEventDialog
                 open={rsvpDialogOpen}
-                onClose={() => {setRsvpDialogOpen(false); setError(null);}}
+                onClose={() => { setRsvpDialogOpen(false); setError(null); }}
             />
         )}
         {editDialogOpen && (
