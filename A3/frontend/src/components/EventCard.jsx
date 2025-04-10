@@ -85,6 +85,7 @@ function EventCard({ event }) {
                 <Typography variant="body2">Organizers: {event?.organizers?.length}</Typography>
                 <Typography variant="body2">Guests: {numGuests}</Typography>
                 {!(currentInterface === "regular" || currentInterface === "cashier") && <>
+                    <Typography variant="body2">Published: {event.published ? 'Yes': 'No'}</Typography>
                     <Typography variant="body2">Points Remaining: {event.pointsRemain}</Typography>
                     <Typography variant="body2">Points Awarded: {event.pointsAwarded}</Typography>
                 </>

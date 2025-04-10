@@ -57,9 +57,7 @@ const EditEventDialog = ({ open, onClose }) => {
         // special-case for published: on checkbox, unchecked becomes undefined
         // since we don't want to unpublish an event
         if (name === "published") {
-            console.log(name);
             newVal = checked ? true : undefined;
-            console.log(newVal);
         } else {
             newVal = value;
         }
