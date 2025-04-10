@@ -36,3 +36,7 @@ Backend:
 - node server.js
 
 To Deploy Website: 
+- Used Railway for deployment:
+- Frontend build command: npm run build
+- Frontend start command: npx serve -s dist
+- Backend start command: npm run deploy
