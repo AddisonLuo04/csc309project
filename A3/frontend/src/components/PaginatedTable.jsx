@@ -17,9 +17,11 @@ const PaginatedTable = ({ fetchData, columns, filtersConfig, initialParams = {} 
     const params = Object.fromEntries(searchParams.entries());
 
     // add an effect so when initialParams changes, the search params update
-    useEffect(() => {
-        setSearchParams(initialParams);
-    }, [initialParams]);
+    // this caused bug of resetting search params on every load back to initial params
+    // originally wanted to set the search params on current interface change
+    // useEffect(() => {
+    //     setSearchParams(initialParams);
+    // }, [initialParams]);
 
     // useMemo to update our a local state of the params
     // use this query to check if we need to call the API
