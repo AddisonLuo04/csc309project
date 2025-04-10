@@ -182,8 +182,8 @@ const UpdateEventDialog = ({ open, onClose }) => {
                         {/* full width for actions */}
                         <Grid>
                             <DialogActions sx={{ justifyContent: "center" }}>
-                                <Button onClick={onClose}>Cancel</Button>
-                                <Button onClick={handleSubmit} variant="contained">
+                                <Button variant="outlined" onClick={onClose}>Cancel</Button>
+                                <Button onClick={handleSubmit} variant="contained" sx={{bgcolor:"#4a4e69"}}>
                                     Save
                                 </Button>
                             </DialogActions>
